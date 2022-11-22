@@ -13,7 +13,7 @@ public class QuizkampenServer extends Thread{
         player2Socket = player2;
 
     }
-    public void run(){
+      public void run(){
         try(PrintWriter outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);
             PrintWriter outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);
             BufferedReader inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));
@@ -31,5 +31,7 @@ public class QuizkampenServer extends Thread{
             e.printStackTrace();
         }
     }
+public static void main(String[] args) throws IOException {
 
+}
 }
