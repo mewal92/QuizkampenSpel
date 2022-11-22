@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameServerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ServerStruktur" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,6 +59,7 @@
         <item itemvalue="Application.GameServerListener" />
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
+        <item itemvalue="Application.QuizkampenClient" />
       </list>
     </recent_temporary>
   </component>
