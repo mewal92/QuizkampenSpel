@@ -9,7 +9,7 @@ public class GameServerListener {
                 Socket player1 = listener.accept();
                 Socket player2 = listener.accept();
                 QuizkampenServer game = new QuizkampenServer(player1, player2);
-                System.out.println("game started");
+                game.start();
             }
         }catch (IOException e){
             throw new RuntimeException();
