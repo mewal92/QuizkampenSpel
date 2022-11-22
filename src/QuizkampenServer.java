@@ -5,28 +5,33 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class QuizkampenServer extends Thread{
-    Socket clientSocket;
-    String player;
+    Socket player1Socket;
+    Socket player2Socket;
 
-    public QuizkampenServer(Socket socket, String player) throws IOException {
-        clientSocket = socket;
-        this.player = player;
+    public QuizkampenServer(Socket player1, Socket player2) throws IOException {
+        player1Socket = player1;
+        player2Socket = player2;
 
-    }
-    public void run(){
-        try(PrintWriter outStream = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))){
-            while((in.readLine()) != null){
-                if(player.equals("player1")){
-                    outStream.println("Welcome " + in.readLine()+". Waiting for another player..");
-                }else{
-                    outStream.println("Welcome " + in.readLine() + ". You have an opponent. Let´s start the game!");
-                    //Start game here
-                }
+        try(PrintWriter outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);
+            PrintWriter outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);
+            BufferedReader inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));
+            BufferedReader inPlayer2 = new BufferedReader(new InputStreamReader(player2Socket.getInputStream()))){
+            String messageFromPLayer;
+            while((messageFromPLayer=inPlayer1.readLine()) != null){
+                System.out.println("inne i loopen");
+                outPlayer1.println("Welcome " + messageFromPLayer+". Let´s play!");
+                outPlayer2.println("Welcome " + messageFromPLayer+". Let´s play!");
             }
 
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
+    public void run(){
+
+    }
 }
+
+/*&& (inPlayer1.readLine()) != null
+outPlayer2.println("Welcome " + inPlayer2.readLine()+". Let´s play!");
+ */

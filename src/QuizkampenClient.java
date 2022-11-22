@@ -13,7 +13,7 @@ public class QuizkampenClient implements ActionListener {
     JPanel basePanel = new JPanel();
     JLabel title = new JLabel("Quizkampen! Enter name:");
     JTextField nameField = new JTextField("",10);
-    JLabel messageFromGameServer = new JLabel("X");
+    JLabel messageFromGameServer = new JLabel("");
     int port = 44444;
     InetAddress ip = InetAddress.getLocalHost();
 
@@ -33,6 +33,7 @@ public class QuizkampenClient implements ActionListener {
             String serverResponse;
             while((serverResponse = in.readLine()) != null){
                 messageFromGameServer.setText(serverResponse);
+                messageFromGameServer.revalidate();
             }
         }
         catch(Exception e){
