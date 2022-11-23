@@ -29,8 +29,15 @@ public class QuizkampenServer extends Thread{
             settings.getRounds();
             settings.getQuestions();
             //Låt player1 välja kategori.
-            while(inPlayer1.readLine().equals("startPressed")){
-                outPlayer1.println("SETCATEGORY");
+            while(gameActive){
+                String player1Choice = inPlayer1.readLine();
+                if(player1Choice.equals("startPressed")){
+                    outPlayer1.println("SETCATEGORY");
+                }
+                if(player1Choice.equals("Film")){
+                    //Fortsätt koden här..
+                }
+
             }
 
         }catch (IOException e) {
