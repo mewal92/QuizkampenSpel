@@ -7,6 +7,8 @@ import java.net.Socket;
 public class QuizkampenServer extends Thread{
     Socket player1Socket;
     Socket player2Socket;
+    Settings settings = new Settings();
+    boolean gameActive = false;
 
     public QuizkampenServer(Socket player1, Socket player2) throws IOException {
         player1Socket = player1;
@@ -18,13 +20,17 @@ public class QuizkampenServer extends Thread{
             PrintWriter outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);
             BufferedReader inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));
             BufferedReader inPlayer2 = new BufferedReader(new InputStreamReader(player2Socket.getInputStream()))){
-            String player1UserName;
-            String player2UserName;
-            while((player1UserName=inPlayer1.readLine()) != null &&
-                    (player2UserName=inPlayer2.readLine()) != null){
-                System.out.println("inne i loopen");
-                outPlayer1.println("Welcome " + player1UserName+". Let´s play!");
-                outPlayer2.println("Welcome " + player2UserName+". Let´s play!");
+            String player1UserName = inPlayer1.readLine();
+            String player2UserName = inPlayer2.readLine();
+            outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
+            outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
+            gameActive = true;
+            //Hämta antal omgångar och frågor
+            settings.getRounds();
+            settings.getQuestions();
+            //Låt player1 välja kategori.
+            while(inPlayer1.readLine().equals("startPressed")){
+                outPlayer1.println("SETCATEGORY");
             }
 
         }catch (IOException e) {
