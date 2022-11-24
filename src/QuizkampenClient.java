@@ -58,10 +58,12 @@ public class QuizkampenClient implements ActionListener {
                 frame.repaint();
                 basePanel.add(play);
                 play.addActionListener(e -> out.println("startPressed"));
+                instructionsPlayer1();
                 break;
             }
+
         }
-        while (in.readLine().equals("SETCATEGORY")) {
+        /*while (in.readLine().equals("SET CATEGORY")) {
             title.setText("Välj kategori");
             basePanel.remove(title2);
             basePanel.remove(nameField);
@@ -77,11 +79,55 @@ public class QuizkampenClient implements ActionListener {
             category4.addActionListener(e -> out.println("Övrigt"));
             frame.repaint();
             frame.revalidate();
+            instructionsPlayer2();
+        }*/
+    }
+
+    private void instructionsPlayer2() throws IOException {
+        while(true){
+            if(in.readLine().equals("SET WAIT")){
+                title.setText("Välj kategori");
+                basePanel.remove(title2);
+                basePanel.remove(nameField);
+                basePanel.remove(play);
+                basePanel.add(score);
+                basePanel.add(category1);
+                basePanel.add(category2);
+                basePanel.add(category3);
+                basePanel.add(category4);
+                frame.repaint();
+                frame.revalidate();
+            }
         }
     }
 
+    public void instructionsPlayer1() throws IOException {
+        while(true){
+            if(in.readLine().equals("SET CATEGORY")){
+                title.setText("Välj kategori");
+                basePanel.remove(title2);
+                basePanel.remove(nameField);
+                basePanel.remove(play);
+                basePanel.add(score);
+                basePanel.add(category1);
+                basePanel.add(category2);
+                basePanel.add(category3);
+                basePanel.add(category4);
+                category1.addActionListener(e -> out.println("Film"));
+                category2.addActionListener(e -> out.println("Musik"));
+                category3.addActionListener(e -> out.println("Java-kunskap"));
+                category4.addActionListener(e -> out.println("Övrigt"));
+                frame.repaint();
+                frame.revalidate();
+            }
+            if(in.readLine().equals("SET CATEGORY")){
+                title.setText(in.readLine());
+                frame.repaint();
+                frame.revalidate();
+            }
+        }
 
-
+    }
     public static void main(String[] args) throws IOException {
         new QuizkampenClient();
     }

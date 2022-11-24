@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="CLean-up">
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
@@ -122,7 +122,13 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1669235749719</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="Clean-up">
+      <created>1669239761068</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1669239761068</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -141,6 +147,7 @@
     <MESSAGE value="Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer." />
     <MESSAGE value="Påbörjat spellogiken mellan client och server." />
     <MESSAGE value="CLean-up" />
-    <option name="LAST_COMMIT_MESSAGE" value="CLean-up" />
+    <MESSAGE value="Clean-up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean-up" />
   </component>
 </project>
