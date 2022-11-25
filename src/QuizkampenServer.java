@@ -39,11 +39,12 @@ public class QuizkampenServer extends Thread{
             //Låt player1 välja kategori.
             while(gameActive){
                 //1. player1 väljer kategori
-                setCategory();
-                chooseCategory();
                 //2. player2 visa väntskärm
-                setWaitScreen();
                 //3. player1 får slumpad fråga.
+                setCategory();
+                setWaitScreen();
+                chooseCategory();
+
             }
         }
         catch (IOException e) {
@@ -56,27 +57,35 @@ public class QuizkampenServer extends Thread{
     }
 
     public void setCategory() throws IOException {
-        String player1Choice = inPlayer1.readLine();
-        if(player1Choice.equals("startPressed")){
-            outPlayer1.println("SET CATEGORY");
+        while(true){
+            if(inPlayer1.readLine().equals("startPressed")){
+                outPlayer1.println("SET CATEGORY");
+                break;
+            }
         }
     }
     public void chooseCategory() throws IOException {
         String player1Choice = inPlayer1.readLine();
         if(player1Choice.equals("Film")){
-            //Välj questionsPerRound slumpmässigt valda frågor ur kategorin.
             int ranNum = new Random().nextInt(0, 3);
             String randomQuestion = questions.categoryList.get(0).get(ranNum);
             outPlayer1.println(randomQuestion);
+            outPlayer1.println(ranNum);
         }
         if(player1Choice.equals("Musik")){
-            //Välj questionsPerRound slumpmässigt valda frågor ur kategorin.
+            int ranNum = new Random().nextInt(0, 3);
+            String randomQuestion = questions.categoryList.get(1).get(ranNum);
+            outPlayer1.println(randomQuestion);
         }
         if(player1Choice.equals("Java-kunskap")){
-            //Välj questionsPerRound slumpmässigt valda frågor ur kategorin.
+            int ranNum = new Random().nextInt(0, 3);
+            String randomQuestion = questions.categoryList.get(2).get(ranNum);
+            outPlayer1.println(randomQuestion);
         }
         if(player1Choice.equals("Övrigt")){
-            //Välj questionsPerRound slumpmässigt valda frågor ur kategorin.
+            int ranNum = new Random().nextInt(0, 3);
+            String randomQuestion = questions.categoryList.get(3).get(ranNum);
+            outPlayer1.println(randomQuestion);
         }
     }
 
