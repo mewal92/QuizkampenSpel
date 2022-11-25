@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up">
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt till Questions och Answers klass.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Answers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Answers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Questions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
@@ -20,7 +21,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="ServerStruktur" />
+    <option name="BRANCH" value="ServerFix" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -135,7 +136,13 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1669291548393</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL−00007" summary="Lagt till Questions och Answers klass.">
+      <created>1669373821542</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1669373821542</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,6 +162,7 @@
     <MESSAGE value="Påbörjat spellogiken mellan client och server." />
     <MESSAGE value="CLean-up" />
     <MESSAGE value="Clean-up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean-up" />
+    <MESSAGE value="Lagt till Questions och Answers klass." />
+    <option name="LAST_COMMIT_MESSAGE" value="Lagt till Questions och Answers klass." />
   </component>
 </project>
