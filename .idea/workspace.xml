@@ -77,10 +77,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.QuizkampenClient" />
-        <item itemvalue="Application.GameServerListener" />
         <item itemvalue="Application.GameProtocol" />
         <item itemvalue="Application.QuizkampenServer" />
+        <item itemvalue="Application.QuizkampenClient" />
+        <item itemvalue="Application.GameServerListener" />
         <item itemvalue="Application.QuizkampenClient" />
       </list>
     </recent_temporary>
