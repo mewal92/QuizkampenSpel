@@ -11,7 +11,9 @@ public class QuizkampenServer extends Thread{
     BufferedReader inPlayer2;
 
     Settings settings = new Settings();
-    Questions questions = new Questions();
+    Questions questionsList = new Questions();
+
+    int currentCategory;
     boolean gameActive = false;
 
     public QuizkampenServer(Socket player1, Socket player2) throws IOException {
@@ -67,55 +69,35 @@ public class QuizkampenServer extends Thread{
     public void chooseCategory() throws IOException {
         String player1Choice = inPlayer1.readLine();
         if(player1Choice.equals("Film")){
+            currentCategory = 0;
             int ranNum = new Random().nextInt(0, 3);
-            String randomQuestion = questions.categoryList.get(0).get(ranNum);
-            outPlayer1.println(randomQuestion);
+            String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println(randomQuestionFromMovieCategory);
             outPlayer1.println(ranNum);
         }
         if(player1Choice.equals("Musik")){
+            currentCategory = 1;
             int ranNum = new Random().nextInt(0, 3);
-            String randomQuestion = questions.categoryList.get(1).get(ranNum);
-            outPlayer1.println(randomQuestion);
+            String randomQuestionFromMusicCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println(randomQuestionFromMusicCategory);
+            outPlayer1.println(ranNum+3);
+
         }
         if(player1Choice.equals("Java-kunskap")){
+            currentCategory = 2;
             int ranNum = new Random().nextInt(0, 3);
-            String randomQuestion = questions.categoryList.get(2).get(ranNum);
-            outPlayer1.println(randomQuestion);
+            String randomQuestionFromJavaCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println(randomQuestionFromJavaCategory);
+            outPlayer1.println(ranNum+6);
+
         }
         if(player1Choice.equals("Övrigt")){
+            currentCategory = 3;
             int ranNum = new Random().nextInt(0, 3);
-            String randomQuestion = questions.categoryList.get(3).get(ranNum);
-            outPlayer1.println(randomQuestion);
-        }
-    }
+            String randomQuestionFromOtherCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println(randomQuestionFromOtherCategory);
+            outPlayer1.println(ranNum+9);
 
-    /*
-    //Hämta antal omgångar och frågor
-    roundsToPlay= settings.getRounds();
-    questionsPerRound= settings.getQuestions();
-    gameActive = true;
-        try {
-        player1UserName = inPlayer1.readLine();
-        player2UserName = inPlayer2.readLine();
-        outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
-        outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    //Låt player1 välja kategori.
-        while(gameActive){
-        //1. player1 väljer kategori
-        //2. player2 visa väntskärm
-        //3. player1 får slumpad fråga.
-        try {
-            setCategory();
-            chooseCategory();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
         }
     }
-
-    p
-*/
 }

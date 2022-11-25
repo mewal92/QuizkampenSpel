@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt till alla frågor och svar." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ServerFix" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,10 +77,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.QuizkampenClient" />
-        <item itemvalue="Application.GameServerListener" />
         <item itemvalue="Application.GameProtocol" />
         <item itemvalue="Application.QuizkampenServer" />
+        <item itemvalue="Application.QuizkampenClient" />
+        <item itemvalue="Application.GameServerListener" />
         <item itemvalue="Application.QuizkampenClient" />
       </list>
     </recent_temporary>
@@ -130,7 +130,13 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1669291548393</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL−00007" summary="Lagt till alla frågor och svar.">
+      <created>1669389995210</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1669389995210</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,6 +156,7 @@
     <MESSAGE value="Påbörjat spellogiken mellan client och server." />
     <MESSAGE value="CLean-up" />
     <MESSAGE value="Clean-up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean-up" />
+    <MESSAGE value="Lagt till alla frågor och svar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Lagt till alla frågor och svar." />
   </component>
 </project>

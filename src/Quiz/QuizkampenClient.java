@@ -22,7 +22,10 @@ public class QuizkampenClient implements ActionListener {
     JButton category2 = new JButton("Musik");
     JButton category3 = new JButton("Java-kunskap");
     JButton category4 = new JButton("Övrigt");
-    Answers answers = new Answers();
+    JButton answer1 = new JButton("Svarsalternativ 1");
+    JButton answer2 = new JButton("Svarsalternativ 2");
+    JButton answer3 = new JButton("Svarsalternativ 3");
+    JButton answer4 = new JButton("Svarsalternativ 4");
 
     InetAddress ip = InetAddress.getLocalHost();
     int port = 44444;
@@ -30,7 +33,8 @@ public class QuizkampenClient implements ActionListener {
     PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
-    String currentQuestion;
+    Answers answerList = new Answers();
+    int currentCategory;
 
     public QuizkampenClient() throws IOException {
         frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
@@ -103,24 +107,29 @@ public class QuizkampenClient implements ActionListener {
     }
 
     private void answerQuestion() throws IOException {
-        JButton answer1 = new JButton("Svarsalternativ 1");
-        JButton answer2 = new JButton("Svarsalternativ 2");
-        JButton answer3 = new JButton("Svarsalternativ 3");
-        JButton answer4 = new JButton("Svarsalternativ 4");
+
         while(true){
-            String questionAsked = in.readLine();
-            int answerIndex = Integer.parseInt(in.readLine()+1);
-            if(questionAsked != null){
-                title.setText(questionAsked);
+            String questionFromServer = in.readLine();
+            System.out.println(questionFromServer);
+            int answerIndex = Integer.parseInt(in.readLine());
+            System.out.println(answerIndex);
+            if(questionFromServer != null){
+                title.setText(questionFromServer);
                 basePanel.add(answer1);
                 basePanel.add(answer2);
                 basePanel.add(answer3);
                 basePanel.add(answer4);
 
-                answer1.setText(answers.filmAnswers.get(answerIndex-1).get(0));
-                answer2.setText(answers.filmAnswers.get(answerIndex-1).get(1));
-                answer3.setText(answers.filmAnswers.get(answerIndex-1).get(2));
-                answer4.setText(answers.filmAnswers.get(answerIndex-1).get(3));
+                answer1.setText(answerList.allAnswers.get(answerIndex).get(0));
+                answer2.setText(answerList.allAnswers.get(answerIndex).get(1));
+                answer3.setText(answerList.allAnswers.get(answerIndex).get(2));
+                answer4.setText(answerList.allAnswers.get(answerIndex).get(3));
+
+                answer1.addActionListener(this);
+                answer2.addActionListener(this);
+                answer3.addActionListener(this);
+                answer4.addActionListener(this);
+
 
                 basePanel.remove(category1);
                 basePanel.remove(category2);
