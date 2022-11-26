@@ -63,47 +63,27 @@ public class QuizkampenClient implements ActionListener {
             title.setFont(new Font("Tahoma", Font.PLAIN, 23));
             score.setFont(new Font("Tahoma", Font.PLAIN, 23));
 
-            String serverResponse;
-            while (true) {
-                if ((serverResponse = in.readLine()) != null) {
-                    title2.setText(serverResponse);
-                    frame.revalidate();
-                    frame.repaint();
-                    basePanel.add(play);
-                    play.addActionListener(e -> out.println("startPressed"));
-                    instructionsPlayer();
-                    break;
-                }
             }
-        }
 
-        public void instructionsPlayer() throws IOException {
-            System.out.println("Väljer kategori");
+    public void play() throws Exception {
+        String serverResponse;
+        try {
+            serverResponse = in.readLine();
+            if (serverResponse != null) {
+                title2.setText(serverResponse);
+                frame.revalidate();
+                frame.repaint();
+                basePanel.add(play);
+                play.addActionListener(e -> out.println("startPressed"));
+
+            }
+
             while (true) {
                 String inFromServer = in.readLine();
-                System.out.println(inFromServer);
                 if (inFromServer.equals("SET CATEGORY")) {
-                    frame.repaint();
-                    System.out.println("Väljer kategori inne");
-                    title.setText("Välj kategori");
-                    basePanel.remove(title2);
-                    basePanel.remove(nameField);
-                    basePanel.remove(play);
-                    basePanel.add(score);
-                    basePanel.add(category1);
-                    basePanel.add(category2);
-                    basePanel.add(category3);
-                    basePanel.add(category4);
-                    category1.addActionListener(e -> out.println("Film"));
-                    category2.addActionListener(e -> out.println("Musik"));
-                    category3.addActionListener(e -> out.println("Java-kunskap"));
-                    category4.addActionListener(e -> out.println("Övrigt"));
-                    frame.repaint();
-                    frame.revalidate();
-                    answerQuestion();
-                    break;
-                }
-                if (inFromServer.equals("SET WAIT")) {
+                    System.out.println("ny bräda");
+                    instructionsPlayer();
+                } else if (inFromServer.equals("SET WAIT")) {
                     title.setText("Väntar på din tur..");
                     basePanel.remove(title2);
                     basePanel.remove(nameField);
@@ -111,13 +91,59 @@ public class QuizkampenClient implements ActionListener {
                     basePanel.add(score);
                     frame.repaint();
                     frame.revalidate();
-                }
-                //Här kommer frågan.
+                } else if (inFromServer.equals("SET ALTERNATIVES")) {
+                    answerQuestion();
+                } else if (inFromServer.equals("SLUT"))
+                    break;
+
+
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        public void instructionsPlayer(){
+            questionCounter = 0;
+            System.out.println("Väljer kategori");
+            title.setText("Välj kategori");
+            basePanel.remove(title2);
+            basePanel.remove(nameField);
+            basePanel.remove(play);
+            basePanel.remove(answer1);
+            basePanel.remove(answer2);
+            basePanel.remove(answer3);
+            basePanel.remove(answer4);
+            basePanel.add(score);
+            basePanel.add(category1);
+            basePanel.add(category2);
+            basePanel.add(category3);
+            basePanel.add(category4);
+
+                    category1.addActionListener(e -> {
+                        out.println("vidarePressed");
+                        out.println("Film");
+                        });
+                    category2.addActionListener(e -> {
+                        out.println("vidarePressed");
+                        out.println("Musik");
+                    });
+                    category3.addActionListener(e -> {
+                        out.println("vidarePressed");
+                        out.println("Java-kunskap");
+                    });
+                    category4.addActionListener(e -> {
+                        out.println("vidarePressed");
+                        out.println("Övrigt");
+                    });
+                    frame.repaint();
+                    frame.revalidate();
+
+                //Här kommer frågan.
+
         }
 
         private void answerQuestion() throws IOException {
-            while (true) {
                 currentCat = in.readLine();
                 String questionFromServer = in.readLine();
                 System.out.println(questionFromServer);
@@ -151,26 +177,28 @@ public class QuizkampenClient implements ActionListener {
                     frame.revalidate();
                 }
             }
-        }
-        public static void main(String[] args) throws IOException {
-            new QuizkampenClient();
+        public static void main(String[] args) throws Exception {
+            QuizkampenClient client = new QuizkampenClient();
+            client.play();
         }
         public void progressCheck() throws IOException {
-            if (questionCounter == 2 && roundCounter != 2) {
-                roundCounter++;
-                questionCounter = 0;
+            if (questionCounter == 2 && roundCounter ==2) {
                 System.out.println("hit1");
-                out.println("startPressed");
-                instructionsPlayer();
-            } else if (questionCounter == 2) {
-                System.out.println("Slut");
-                System.out.println("hit2");
+                out.println("slut");
                 frame.add(slut);
-            } else{
+            } else if (questionCounter !=2){
                 System.out.println("hit3");
                 System.out.println(currentCat);
                 out.println("vidarePressed");
                 out.println(currentCat);
+            } else {
+                roundCounter++;
+                basePanel.remove(answer1);
+                basePanel.remove(answer2);
+                basePanel.remove(answer3);
+                basePanel.remove(answer4);
+                System.out.println("hit2");
+                instructionsPlayer();
             }
         }
         @Override
@@ -208,6 +236,8 @@ public class QuizkampenClient implements ActionListener {
                 answer4.setBackground(Color.red);
             }
             if (e.getSource() == vidare){
+
+                frame.remove(vidare);
                 try {
                     progressCheck();
                 } catch (IOException ex) {

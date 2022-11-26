@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="slumfrågor som man ser om dem blivit frågade redan">
-      <change afterPath="$PROJECT_DIR$/src/Images/background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/Answers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/GameProtocol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/Questions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/Settings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Quiz/settings.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="ändringar&#10;ändringar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +40,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "last_opened_file_path": "C:/Users/phili/Fiftenpieces"
+    "last_opened_file_path": "C:/Users/phili/Fiftenpieces",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -113,7 +104,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1669121771786</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="ändringar&#10;ändringar">
+      <created>1669497684309</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1669497684309</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -129,6 +126,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Server som matchar två spelare i taget för en ny spelomgång." />
-    <option name="LAST_COMMIT_MESSAGE" value="Server som matchar två spelare i taget för en ny spelomgång." />
+    <MESSAGE value="ändringar&#10;ändringar" />
+    <option name="LAST_COMMIT_MESSAGE" value="ändringar&#10;ändringar" />
   </component>
 </project>

@@ -38,18 +38,26 @@ public class QuizkampenServer extends Thread{
             outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
             gameActive = true;
             //Hämta antal omgångar och frågor
-            settings.getRounds();
-            settings.getQuestions();
+            Settings.getRounds();
+            Settings.getQuestions();
             //Låt player1 välja kategori.
-            while(gameActive){
+            while(gameActive) {
+                if (inPlayer1.readLine().equals("slut")) {
+                    endGame();
+                } else if (inPlayer1.readLine().equals("vidarePressed")) {
+                    chooseCategory();
+                } else if (inPlayer1.readLine().equals("startPressed")) {
+                    setWaitScreen();
+                    setCategory();
+                }
                 //1. player1 väljer kategori
                 //2. player2 visa väntskärm
                 //3. player1 får slumpad fråga.
-                setCategory();
+                /*setCategory();
                 setWaitScreen();
                 chooseCategory();
                 seeProgress();
-                chooseCategory();
+                endGame();*/
 
             }
         }
@@ -58,13 +66,18 @@ public class QuizkampenServer extends Thread{
         }
     }
 
+    public void endGame() throws IOException {
+
+                outPlayer1.println("SLUT");
+                gameActive = false;
+        }
     private void setWaitScreen() {
         outPlayer2.println("SET WAIT");
     }
     public void seeProgress() throws IOException {//kollar hur långt i spelet man kommit om man svarat på en fråga
         while(true){
             if(inPlayer1.readLine().equals("vidarePressed")){
-                chooseCategory();
+               chooseCategory();
                 break;
             }
         }
@@ -73,12 +86,7 @@ public class QuizkampenServer extends Thread{
 
 
     public void setCategory() throws IOException {
-        while(true){
-            if(inPlayer1.readLine().equals("startPressed")){
                 outPlayer1.println("SET CATEGORY");
-                break;
-            }
-        }
     }
     public void chooseCategory() throws IOException {
         String category = inPlayer1.readLine();
@@ -87,6 +95,7 @@ public class QuizkampenServer extends Thread{
             currentCategory = 0;
             int ranNum = new Random().nextInt(0, 3);
             String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println("SET ALTERNATIVES");
             outPlayer1.println(category);
             outPlayer1.println(randomQuestionFromMovieCategory);
             outPlayer1.println(ranNum);
@@ -96,6 +105,7 @@ public class QuizkampenServer extends Thread{
             int ranNum = new Random().nextInt(0, 3);
             outPlayer1.println(category);
             String randomQuestionFromMusicCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println("SET ALTERNATIVES");
             outPlayer1.println(category);
             outPlayer1.println(randomQuestionFromMusicCategory);
             outPlayer1.println(ranNum+3);
@@ -105,6 +115,7 @@ public class QuizkampenServer extends Thread{
             currentCategory = 2;
             int ranNum = new Random().nextInt(0, 3);
             String randomQuestionFromJavaCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println("SET ALTERNATIVES");
             outPlayer1.println(category);
             outPlayer1.println(randomQuestionFromJavaCategory);
             outPlayer1.println(ranNum+6);
@@ -114,6 +125,7 @@ public class QuizkampenServer extends Thread{
             currentCategory = 3;
             int ranNum = new Random().nextInt(0, 3);
             String randomQuestionFromOtherCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+            outPlayer1.println("SET ALTERNATIVES");
             outPlayer1.println(category);
             outPlayer1.println(randomQuestionFromOtherCategory);
             outPlayer1.println(ranNum+9);
