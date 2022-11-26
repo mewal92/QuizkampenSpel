@@ -1,0 +1,40 @@
+Index: src/Quiz/QuizkampenServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Quiz/QuizkampenServer.java b/src/QuizkampenServer.java
+rename from src/Quiz/QuizkampenServer.java
+rename to src/QuizkampenServer.java
+--- a/src/Quiz/QuizkampenServer.java	
++++ b/src/QuizkampenServer.java	
+@@ -1,10 +1,10 @@
+-package Quiz;
+-
+ import java.io.*;
+ import java.net.Socket;
+ import java.util.*;
+ 
+ public class QuizkampenServer extends Thread{
++   String player1UserName;
++    String player2UserName;
+     Socket player1Socket;
+     Socket player2Socket;
+     PrintWriter outPlayer1;
+@@ -64,13 +64,14 @@
+             System.out.println("ej hittad");
+         }
+         return null;
++
+     }
+ 
+ 
+         public void run(){
+             try{
+-                String player1UserName = inPlayer1.readLine();
+-                String player2UserName = inPlayer2.readLine();
++               player1UserName = inPlayer1.readLine();
++               player2UserName = inPlayer2.readLine();
+                 outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
+                 outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
+                 gameActive = true;

@@ -1,0 +1,267 @@
+Index: src/Quiz/FrågeObjekt.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Quiz/FrågeObjekt.java b/src/FrågeObjekt.java
+rename from src/Quiz/FrågeObjekt.java
+rename to src/FrågeObjekt.java
+--- a/src/Quiz/FrågeObjekt.java	
++++ b/src/FrågeObjekt.java	
+@@ -1,7 +1,3 @@
+-package Quiz;
+-
+-import java.io.File;
+-import java.io.FileNotFoundException;
+ import java.util.*;
+ 
+ public class FrågeObjekt {
+Index: src/Quiz/QuizkampenClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Quiz/QuizkampenClient.java b/src/QuizkampenClient.java
+rename from src/Quiz/QuizkampenClient.java
+rename to src/QuizkampenClient.java
+--- a/src/Quiz/QuizkampenClient.java	
++++ b/src/QuizkampenClient.java	
+@@ -1,6 +1,3 @@
+-package Quiz;
+-
+-import javax.imageio.ImageIO;
+ import javax.swing.*;
+ import javax.swing.border.EmptyBorder;
+ import java.awt.*;
+Index: src/Quiz/GameServerListener.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Quiz/GameServerListener.java b/src/GameServerListener.java
+rename from src/Quiz/GameServerListener.java
+rename to src/GameServerListener.java
+--- a/src/Quiz/GameServerListener.java	
++++ b/src/GameServerListener.java	
+@@ -1,4 +1,3 @@
+-package Quiz;
+ import java.io.IOException;
+ import java.net.ServerSocket;
+ import java.net.Socket;
+Index: src/GameProtocol.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GameProtocol.java b/src/GameProtocol.java
+--- a/src/GameProtocol.java	
++++ b/src/GameProtocol.java	
+@@ -26,8 +26,8 @@
+         frame.setLocationRelativeTo(null);
+         frame.setResizable(false);
+         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+-
+     }
++
+ 
+     public void setChooseCategoryGui(){
+         basePanel.setLayout(new GridLayout(1,4));
+Index: src/Frågorna/settings.properties
+===================================================================
+diff --git a/src/Frågorna/settings.properties b/src/Frågorna/settings.properties
+deleted file mode 100644
+--- a/src/Frågorna/settings.properties	
++++ /dev/null	
+@@ -1,2 +0,0 @@
+-rounds=2
+-questions=2
+\ No newline at end of file
+Index: src/Quiz/GameProtocol.java
+===================================================================
+diff --git a/src/Quiz/GameProtocol.java b/src/Quiz/GameProtocol.java
+deleted file mode 100644
+--- a/src/Quiz/GameProtocol.java	
++++ /dev/null	
+@@ -1,51 +0,0 @@
+-package Quiz;
+-import javax.imageio.ImageIO;
+-import javax.swing.*;
+-import java.awt.*;
+-import java.awt.event.ActionEvent;
+-import java.awt.event.ActionListener;
+-import java.awt.image.BufferedImage;
+-import java.io.File;
+-import java.io.IOException;
+-
+-
+-public class GameProtocol extends JFrame implements ActionListener {
+-    JFrame frame = new JFrame("Quizkampen");
+-    BufferedImage backgroundImage = ImageIO.read(new File("src/Bakgrund/background.jpg"));
+-    JPanel basePanel = new JPanel();
+-    JLabel chooseCategory = new JLabel("Välj en kategori");
+-    JButton category1 = new JButton("Historia");
+-    JButton category2 = new JButton("Sport");
+-    JButton category3 = new JButton("Java-kunskap");
+-    JButton category4 = new JButton("Övrigt");
+-
+-    public GameProtocol() throws IOException {
+-        frame.setContentPane(new JLabel(new ImageIcon("src/Bakgrund/background.jpg")));
+-        frame.add(basePanel);
+-        frame.setSize(800, 530);
+-        frame.setVisible(true);
+-        frame.setLocationRelativeTo(null);
+-        frame.setResizable(false);
+-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+-
+-    }
+-
+-    public void setChooseCategoryGui(){
+-        basePanel.setLayout(new GridLayout(1,4));
+-        basePanel.add(category1);
+-        basePanel.add(category2);
+-        basePanel.add(category3);
+-        basePanel.add(category4);
+-        basePanel.add(chooseCategory);
+-        revalidate();
+-        repaint();
+-    }
+-
+-    @Override
+-    public void actionPerformed(ActionEvent e) {
+-
+-    }
+-    public static void main(String[] args) throws IOException {
+-        new GameProtocol().setChooseCategoryGui();
+-    }
+-}
+\ No newline at end of file
+Index: src/Quiz/Settings.java
+===================================================================
+diff --git a/src/Quiz/Settings.java b/src/Quiz/Settings.java
+deleted file mode 100644
+--- a/src/Quiz/Settings.java	
++++ /dev/null	
+@@ -1,26 +0,0 @@
+-package Quiz;
+-
+-import java.io.FileInputStream;
+-import java.util.Properties;
+-
+-public class Settings {
+-    private int rounds;
+-    private int questions;
+-
+-    public Settings(){
+-        Properties p = new Properties();
+-        try{
+-            p.load(new FileInputStream("src/Frågorna/settings.properties"));
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-        }
+-        rounds=Integer.parseInt(p.getProperty("rounds","3"));
+-        questions=Integer.parseInt(p.getProperty("questions","3"));
+-    }
+-    public int getRounds(){
+-        return rounds;
+-    }
+-    public int getQuestions(){
+-        return questions;
+-    }
+-}
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -1,21 +1,24 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Server som matchar två spelare i taget för en ny spelomgång.">
+-      <change afterPath="$PROJECT_DIR$/src/Bakgrund/background.jpg" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Bakgrund/background.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Frågorna/Historia.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Frågorna/Sport.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Frågorna/settings.properties" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Quiz/FrågeObjekt.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Quiz/GameProtocol.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/Quiz/Settings.java" afterDir="false" />
++    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Bakgrund/background.jpg" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Bakgrund/background.png" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Frågorna/Historia.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Historia.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Frågorna/Sport.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Sport.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Frågorna/settings.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/GameProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameProtocol.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/FrågeObjekt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FrågeObjekt.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/GameProtocol.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameServerListener.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Quiz/Settings.java" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -35,7 +38,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="master" />
++        <entry key="$PROJECT_DIR$" value="QuestionLogics" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -49,12 +52,12 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/phili/QuizkampenSpel&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\phili\QuizkampenSpel\src\Quiz" />
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+diff --git a/src/Frågorna/Historia.txt b/Historia.txt
+rename from src/Frågorna/Historia.txt
+rename to Historia.txt
+diff --git a/src/Frågorna/Sport.txt b/Sport.txt
+rename from src/Frågorna/Sport.txt
+rename to Sport.txt

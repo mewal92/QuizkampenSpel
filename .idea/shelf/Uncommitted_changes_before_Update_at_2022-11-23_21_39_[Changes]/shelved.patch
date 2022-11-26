@@ -1,0 +1,216 @@
+Index: src/QuizkampenClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import javax.imageio.ImageIO;\r\nimport javax.swing.*;\r\nimport javax.swing.border.EmptyBorder;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.awt.image.BufferedImage;\r\nimport java.io.*;\r\nimport java.net.InetAddress;\r\nimport java.net.Socket;\r\n\r\n\r\npublic class QuizkampenClient implements ActionListener {\r\n    JPanel basePanel = new JPanel();\r\n    JLabel title = new JLabel(\"Välkommen till Quizkampen!\");\r\n    JLabel title2 = new JLabel(\"Skriv ditt namn för att börja spela: \");\r\n    JButton play = new JButton(\"Starta spel\");\r\n    JTextField nameField = new JTextField(\"\",10);\r\n    JLabel messageFromGameServer = new JLabel();\r\n    BufferedImage backgroundImage;\r\n    int port = 44444;\r\n    InetAddress ip = InetAddress.getLocalHost();\r\n\r\n\r\n    public QuizkampenClient() throws IOException {\r\n        basePanel.setLayout(new GridLayout(4,1));\r\n        basePanel.setBorder(new EmptyBorder(100, 100, 20 , 20));\r\n        title.setFont(new Font(\"Tahoma\", 1, 23 ));\r\n        basePanel.add(title);\r\n        basePanel.add(title2);\r\n        basePanel.add(nameField);\r\n        basePanel.setBackground(new Color(0, 0, 0, 0));\r\n        setFrame();\r\n\r\n\r\n        try(Socket sock = new Socket(ip, port)){\r\n            PrintWriter out = new PrintWriter(sock.getOutputStream(),true);\r\n            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));\r\n            nameField.addActionListener(e -> out.println(nameField.getText()));\r\n            String serverResponse;\r\n            while((serverResponse = in.readLine()) != null){\r\n                messageFromGameServer.setText(serverResponse);\r\n                basePanel.remove(title2);\r\n                basePanel.remove(nameField);\r\n                basePanel.add(messageFromGameServer);\r\n                basePanel.add(play);\r\n                play.addActionListener(this);\r\n                basePanel.revalidate();\r\n\r\n            }\r\n\r\n        }\r\n        catch(Exception e){\r\n            e.printStackTrace();\r\n        }\r\n\r\n    }\r\n    private void setFrame() {\r\n        try {\r\n            JFrame frame = new JFrame(\"Quizkampen\");\r\n            backgroundImage = ImageIO.read(new File(\"background.jpg\"));\r\n            frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));\r\n            frame.setLayout(new FlowLayout());\r\n            frame.add(basePanel);\r\n            frame.setSize(800, 530);\r\n            frame.setVisible(true);\r\n            frame.setLocationRelativeTo(null);\r\n            frame.setResizable(false);\r\n            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\r\n\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n        public static void main(String[] args) throws IOException {\r\n        new QuizkampenClient();\r\n    }\r\n\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n        if (e.getSource() == play) {\r\n            new GameProtocol();\r\n        }\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/QuizkampenClient.java b/src/QuizkampenClient.java
+--- a/src/QuizkampenClient.java	(revision a81ce9fd1f2023f1851b8383a7af4e254eae98e1)
++++ b/src/QuizkampenClient.java	(date 1669228296881)
+@@ -23,16 +23,15 @@
+ 
+ 
+     public QuizkampenClient() throws IOException {
+-        basePanel.setLayout(new GridLayout(4,1));
+-        basePanel.setBorder(new EmptyBorder(100, 100, 20 , 20));
+-        title.setFont(new Font("Tahoma", 1, 23 ));
++        basePanel.setLayout(new GridLayout(4, 1));
++        basePanel.setBorder(new EmptyBorder(100, 100, 20, 20));
++        title.setFont(new Font("Tahoma", 1, 23));
+         basePanel.add(title);
+         basePanel.add(title2);
+         basePanel.add(nameField);
+         basePanel.setBackground(new Color(0, 0, 0, 0));
+         setFrame();
+ 
+-
+         try(Socket sock = new Socket(ip, port)){
+             PrintWriter out = new PrintWriter(sock.getOutputStream(),true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+Index: src/QuizkampenServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.BufferedReader;\r\nimport java.io.IOException;\r\nimport java.io.InputStreamReader;\r\nimport java.io.PrintWriter;\r\nimport java.net.Socket;\r\n\r\npublic class QuizkampenServer extends Thread{\r\n    Socket player1Socket;\r\n    Socket player2Socket;\r\n\r\n    public QuizkampenServer(Socket player1, Socket player2) throws IOException {\r\n        player1Socket = player1;\r\n        player2Socket = player2;\r\n\r\n    }\r\n      public void run(){\r\n        try(PrintWriter outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);\r\n            PrintWriter outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);\r\n            BufferedReader inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));\r\n            BufferedReader inPlayer2 = new BufferedReader(new InputStreamReader(player2Socket.getInputStream()))){\r\n            String player1UserName;\r\n            String player2UserName;\r\n            while((player1UserName=inPlayer1.readLine()) != null &&\r\n                    (player2UserName=inPlayer2.readLine()) != null){\r\n                System.out.println(\"inne i loopen\");\r\n                outPlayer1.println(\"Welcome \" + player1UserName+\". Let´s play!\");\r\n                outPlayer2.println(\"Welcome \" + player2UserName+\". Let´s play!\");\r\n            }\r\n\r\n        }catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\npublic static void main(String[] args) throws IOException {\r\n\r\n}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/QuizkampenServer.java b/src/QuizkampenServer.java
+--- a/src/QuizkampenServer.java	(revision a81ce9fd1f2023f1851b8383a7af4e254eae98e1)
++++ b/src/QuizkampenServer.java	(date 1669228296896)
+@@ -13,7 +13,10 @@
+         player2Socket = player2;
+ 
+     }
+-      public void run(){
++
++    public QuizkampenServer() {}
++
++    public void run(){
+         try(PrintWriter outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);
+             PrintWriter outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);
+             BufferedReader inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));
+@@ -32,6 +35,6 @@
+         }
+     }
+ public static void main(String[] args) throws IOException {
+-
++new QuizkampenServer();
+ }
+ }
+\ No newline at end of file
+Index: src/GameProtocol.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import javax.imageio.ImageIO;\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.awt.image.BufferedImage;\r\nimport java.io.File;\r\n\r\n\r\npublic class GameProtocol extends JFrame implements ActionListener {\r\n    BufferedImage backgroundImage;\r\n    JPanel basePanel = new JPanel();\r\n    JPanel scoreboardPanel;\r\n    JLabel question;\r\n    JLabel chooseCategory = new JLabel(\"Välj en kategori\");\r\n    JButton answerButtons;\r\n\r\n\r\n\r\n    public GameProtocol() {\r\n        basePanel.add(chooseCategory);\r\n        getFrame();\r\n    }\r\n\r\n\r\n    private void getFrame() {\r\n        try {\r\n            JFrame frame = new JFrame(\"Quizkampen\");\r\n            backgroundImage = ImageIO.read(new File(\"background.jpg\"));\r\n            frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));\r\n            frame.add(basePanel);\r\n            frame.setLayout(new FlowLayout());\r\n            frame.setSize(800, 530);\r\n            frame.setVisible(true);\r\n            frame.setLocationRelativeTo(null);\r\n            frame.setResizable(false);\r\n            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\r\n\r\n        } catch (Exception e) {\r\n        }\r\n    }\r\n\r\n\r\n    public static void main(String[] args) {\r\n        GameProtocol gp = new GameProtocol();\r\n    }\r\n\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GameProtocol.java b/src/GameProtocol.java
+--- a/src/GameProtocol.java	(revision a81ce9fd1f2023f1851b8383a7af4e254eae98e1)
++++ b/src/GameProtocol.java	(date 1669235861286)
+@@ -5,23 +5,56 @@
+ import java.awt.event.ActionListener;
+ import java.awt.image.BufferedImage;
+ import java.io.File;
++import java.util.ArrayList;
+ 
+ 
+ public class GameProtocol extends JFrame implements ActionListener {
+     BufferedImage backgroundImage;
+     JPanel basePanel = new JPanel();
+     JPanel scoreboardPanel;
+-    JLabel question;
++    JLabel playerOne;
++    JLabel playerTwo;
+     JLabel chooseCategory = new JLabel("Välj en kategori");
++    JButton category1 = new JButton("Djur");
++    JButton category2 = new JButton("Historia");
++    JButton category3 = new JButton("Musik");
++    JButton category4 = new JButton("Random");
+     JButton answerButtons;
+ 
+ 
+-
+     public GameProtocol() {
++        basePanel.setLayout(new GridLayout(1,5));
+         basePanel.add(chooseCategory);
++        category1.setSize(45,80);
++        category1.addActionListener(this);
++        basePanel.add(category1);
++        category2.setSize(45,80);
++        category2.addActionListener(this);
++        basePanel.add(category2);
++        category3.setSize(45,80);
++        category3.addActionListener(this);
++        basePanel.add(category3);
++        category4.setSize(45,80);
++        category4.addActionListener(this);
++        basePanel.add(category4);
+         getFrame();
+     }
+ 
++    private void getQuestionPanel(ArrayList<String> questions) {
++        basePanel.removeAll();
++            getFrame();
++        }
++
++
++    private void getScoreBoardPanel() {
++        scoreboardPanel = new JPanel();
++        scoreboardPanel.setLayout(new BorderLayout());
++        playerOne = new JLabel("Poäng: ");
++        playerTwo = new JLabel("Poäng: ");
++        scoreboardPanel.add(playerOne, BorderLayout.WEST);
++        scoreboardPanel.add(playerTwo, BorderLayout.EAST);
++    }
++
+ 
+     private void getFrame() {
+         try {
+@@ -48,6 +81,9 @@
+ 
+     @Override
+     public void actionPerformed(ActionEvent e) {
++        if (e.getSource().equals(category1)){
++            getQuestionPanel(null);
+ 
++        }
+     }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"initial\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/QuizkampenClient.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/QuizkampenClient.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/QuizkampenServer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/QuizkampenServer.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Merge.Settings\">\r\n    <option name=\"BRANCH\" value=\"ServerStruktur\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Hu00ucNxnURgt22zxsXoabXbjq\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"last_opened_file_path\": \"C:/Users/melin/IdeaProjects/QuizkampenSpel\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\melin\\IdeaProjects\\QuizkampenSpel\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.QuizkampenClient\">\r\n    <configuration name=\"GameServerListener\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"GameServerListener\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenClient\" type=\"Application\" factoryName=\"Application\" singleton=\"false\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenClient\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenServer\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenServer\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.QuizkampenServer\" />\r\n      <item itemvalue=\"Application.GameServerListener\" />\r\n      <item itemvalue=\"Application.QuizkampenClient\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n        <item itemvalue=\"Application.QuizkampenServer\" />\r\n        <item itemvalue=\"Application.GameServerListener\" />\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n        <item itemvalue=\"Application.GameServerListener\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"\" />\r\n      <created>1669119449433</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1669119449433</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00001\" summary=\"Server som matchar två spelare i taget för en ny spelomgång.\">\r\n      <created>1669121771786</created>\r\n      <option name=\"number\" value=\"LOCAL−00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00001\" />\r\n      <updated>1669121771786</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00002\" summary=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\">\r\n      <created>1669125562754</created>\r\n      <option name=\"number\" value=\"LOCAL−00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00002\" />\r\n      <updated>1669125562754</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Server som matchar två spelare i taget för en ny spelomgång.\" />\r\n    <MESSAGE value=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a81ce9fd1f2023f1851b8383a7af4e254eae98e1)
++++ b/.idea/workspace.xml	(date 1669228308135)
+@@ -5,9 +5,8 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="initial">
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-22_14_49__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/GameProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameProtocol.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
+     </list>
+@@ -16,6 +15,13 @@
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Class" />
++      </list>
++    </option>
++  </component>
+   <component name="Git.Merge.Settings">
+     <option name="BRANCH" value="ServerStruktur" />
+   </component>
+@@ -36,11 +42,11 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "last_opened_file_path": "C:/Users/melin/IdeaProjects/QuizkampenSpel"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/melin/IdeaProjects/QuizkampenSpel&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\melin\IdeaProjects\QuizkampenSpel" />
+@@ -104,7 +110,13 @@
+       <option name="presentableId" value="LOCAL−00002" />
+       <updated>1669125562754</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL−00003" summary="initial">
++      <created>1669159342580</created>
++      <option name="number" value="LOCAL−00003" />
++      <option name="presentableId" value="LOCAL−00003" />
++      <updated>1669159342580</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -121,6 +133,7 @@
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Server som matchar två spelare i taget för en ny spelomgång." />
+     <MESSAGE value="Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer." />
+-    <option name="LAST_COMMIT_MESSAGE" value="Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer." />
++    <MESSAGE value="initial" />
++    <option name="LAST_COMMIT_MESSAGE" value="initial" />
+   </component>
+ </project>
+\ No newline at end of file

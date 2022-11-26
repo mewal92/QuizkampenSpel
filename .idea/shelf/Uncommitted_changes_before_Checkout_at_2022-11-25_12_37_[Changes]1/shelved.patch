@@ -1,0 +1,104 @@
+Index: src/Answers.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Answers.java b/src/Answers.java
+--- a/src/Answers.java	
++++ b/src/Answers.java	
+@@ -1,6 +1,7 @@
+ import java.util.ArrayList;
+ 
+ public class Answers {
++    String correctAnswer;
+     ArrayList<ArrayList<String>> filmAnswers = new ArrayList<>();
+     ArrayList<String>q1 = new ArrayList<>();
+     ArrayList<String>q2 = new ArrayList<>();
+@@ -11,6 +12,7 @@
+         String a2 = "Brad";
+         String a3 = "George";
+         String a4 = "Henry";
++        correctAnswer = a2;
+ 
+         q1.add(a1);
+         q1.add(a2);
+Index: src/GameProtocol.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GameProtocol.java b/src/GameProtocol.java
+--- a/src/GameProtocol.java	
++++ b/src/GameProtocol.java	
+@@ -13,10 +13,10 @@
+     BufferedImage backgroundImage = ImageIO.read(new File("background.jpg"));
+     JPanel basePanel = new JPanel();
+     JLabel chooseCategory = new JLabel("Välj en kategori");
+-    JButton category1 = new JButton("Film");
+-    JButton category2 = new JButton("Musik");
+-    JButton category3 = new JButton("Java-kunskap");
+-    JButton category4 = new JButton("Övrigt");
++    JButton button1;
++    JButton button2;
++    JButton button3;
++    JButton button4;
+ 
+     public GameProtocol() throws IOException {
+         frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
+@@ -31,10 +31,10 @@
+ 
+     public void setChooseCategoryGui(){
+         basePanel.setLayout(new GridLayout(1,4));
+-        basePanel.add(category1);
+-        basePanel.add(category2);
+-        basePanel.add(category3);
+-        basePanel.add(category4);
++        basePanel.add(button1);
++        basePanel.add(button2);
++        basePanel.add(button3);
++        basePanel.add(button4);
+         basePanel.add(chooseCategory);
+         revalidate();
+         repaint();
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -1,7 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up" />
++    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up">
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Answers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Answers.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

@@ -1,0 +1,373 @@
+Index: src/Questions.java
+===================================================================
+diff --git a/src/Questions.java b/src/Questions.java
+deleted file mode 100644
+--- a/src/Questions.java	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ /dev/null	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
+@@ -1,48 +0,0 @@
+-import java.util.ArrayList;
+-
+-public class Questions {
+-    ArrayList<ArrayList<String>>categoryList = new ArrayList<>();
+-    ArrayList<String>movie = new ArrayList<>();
+-    ArrayList<String>music = new ArrayList<>();
+-    ArrayList<String>java = new ArrayList<>();
+-    ArrayList<String>other = new ArrayList<>();
+-
+-    String q1 = "Vad heter den kända skådespelaren Pitt i förnamn?";
+-    String q2 = "Vem spelar huvudrollen i den episka filmen The Good, The Bad and The Ugly?";
+-    String q3 = "Vem spelar Fat Amy i filmen Perfect Pitch?";
+-
+-    String q4 = "Vem skrev den episka musiken till The Good, The Bad and The Ugly?";
+-    String q5 = "Vilket instrument spelar artisten John Mayer?";
+-    String q6 = "Vad kan man göra med en bastuba?";
+-
+-    String q7 = "Vem kallas the Godfather of Java?";
+-    String q8 = "Hur många arv är tillåtna per klass i Java?";
+-    String q9 = "Vad är Java?";
+-
+-    String q10 = "Vilken är den bästa läsken?";
+-    String q11 = "Vad heter hjärnorna bakom det här quizet?";
+-    String q12 = "Hur högt är Mount Everest?";
+-
+-    public Questions(){
+-        movie.add(q1);
+-        movie.add(q2);
+-        movie.add(q3);
+-        categoryList.add(movie);
+-
+-        music.add(q4);
+-        music.add(q5);
+-        music.add(q6);
+-        categoryList.add(music);
+-
+-        java.add(q7);
+-        java.add(q8);
+-        java.add(q9);
+-        categoryList.add(java);
+-
+-        other.add(q10);
+-        other.add(q11);
+-        other.add(q12);
+-        categoryList.add(java);
+-
+-    }
+-}
+Index: src/GameProtocol.java
+===================================================================
+diff --git a/src/GameProtocol.java b/src/GameProtocol.java
+deleted file mode 100644
+--- a/src/GameProtocol.java	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ /dev/null	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
+@@ -1,50 +0,0 @@
+-import javax.imageio.ImageIO;
+-import javax.swing.*;
+-import java.awt.*;
+-import java.awt.event.ActionEvent;
+-import java.awt.event.ActionListener;
+-import java.awt.image.BufferedImage;
+-import java.io.File;
+-import java.io.IOException;
+-
+-
+-public class GameProtocol extends JFrame implements ActionListener {
+-    JFrame frame = new JFrame("Quizkampen");
+-    BufferedImage backgroundImage = ImageIO.read(new File("background.jpg"));
+-    JPanel basePanel = new JPanel();
+-    JLabel chooseCategory = new JLabel("Välj en kategori");
+-    JButton category1 = new JButton("Film");
+-    JButton category2 = new JButton("Musik");
+-    JButton category3 = new JButton("Java-kunskap");
+-    JButton category4 = new JButton("Övrigt");
+-
+-    public GameProtocol() throws IOException {
+-        frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
+-        frame.add(basePanel);
+-        frame.setSize(800, 530);
+-        frame.setVisible(true);
+-        frame.setLocationRelativeTo(null);
+-        frame.setResizable(false);
+-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+-
+-    }
+-
+-    public void setChooseCategoryGui(){
+-        basePanel.setLayout(new GridLayout(1,4));
+-        basePanel.add(category1);
+-        basePanel.add(category2);
+-        basePanel.add(category3);
+-        basePanel.add(category4);
+-        basePanel.add(chooseCategory);
+-        revalidate();
+-        repaint();
+-    }
+-
+-    @Override
+-    public void actionPerformed(ActionEvent e) {
+-
+-    }
+-    public static void main(String[] args) throws IOException {
+-        new GameProtocol().setChooseCategoryGui();
+-    }
+-}
+\ No newline at end of file
+Index: src/Settings.java
+===================================================================
+diff --git a/src/Settings.java b/src/Settings.java
+deleted file mode 100644
+--- a/src/Settings.java	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ /dev/null	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
+@@ -1,25 +0,0 @@
+-import java.io.FileInputStream;
+-import java.util.Properties;
+-
+-public class Settings {
+-    private int rounds;
+-    private int questions;
+-
+-    public Settings(){
+-        Properties p = new Properties();
+-        try{
+-            p.load(new FileInputStream("src/settings.properties"));
+-        } catch (Exception e) {
+-            e.printStackTrace();
+-        }
+-        rounds=Integer.parseInt(p.getProperty("rounds","3"));
+-        questions=Integer.parseInt(p.getProperty("questions","3"));
+-    }
+-    public int getRounds(){
+-        return rounds;
+-    }
+-    public int getQuestions(){
+-        return questions;
+-    }
+-}
+-
+Index: src/Answers.java
+===================================================================
+diff --git a/src/Answers.java b/src/Answers.java
+deleted file mode 100644
+--- a/src/Answers.java	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ /dev/null	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
+@@ -1,22 +0,0 @@
+-import java.util.ArrayList;
+-
+-public class Answers {
+-    ArrayList<ArrayList<String>> filmAnswers = new ArrayList<>();
+-    ArrayList<String>q1 = new ArrayList<>();
+-    ArrayList<String>q2 = new ArrayList<>();
+-    ArrayList<String>q3 = new ArrayList<>();
+-
+-    public Answers(){
+-        String a1 = "Michael";
+-        String a2 = "Brad";
+-        String a3 = "George";
+-        String a4 = "Henry";
+-
+-        q1.add(a1);
+-        q1.add(a2);
+-        q1.add(a3);
+-        q1.add(a4);
+-
+-        filmAnswers.add(q1);
+-    }
+-}
+Index: src/QuizkampenServer.java
+===================================================================
+diff --git a/src/QuizkampenServer.java b/src/QuizkampenServer.java
+deleted file mode 100644
+--- a/src/QuizkampenServer.java	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ /dev/null	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
+@@ -1,121 +0,0 @@
+-import java.io.*;
+-import java.net.Socket;
+-import java.util.Random;
+-
+-public class QuizkampenServer extends Thread{
+-    Socket player1Socket;
+-    Socket player2Socket;
+-    PrintWriter outPlayer1;
+-    PrintWriter outPlayer2;
+-    BufferedReader inPlayer1;
+-    BufferedReader inPlayer2;
+-
+-    Settings settings = new Settings();
+-    Questions questions = new Questions();
+-    boolean gameActive = false;
+-
+-    public QuizkampenServer(Socket player1, Socket player2) throws IOException {
+-        player1Socket = player1;
+-        player2Socket = player2;
+-        try{
+-            outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);
+-            outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);
+-            inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));
+-            inPlayer2 = new BufferedReader(new InputStreamReader(player2Socket.getInputStream()));
+-        } catch (IOException e) {
+-            e.printStackTrace();
+-        }
+-    }
+-    public void run(){
+-        try{
+-            String player1UserName = inPlayer1.readLine();
+-            String player2UserName = inPlayer2.readLine();
+-            outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
+-            outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
+-            gameActive = true;
+-            //Hämta antal omgångar och frågor
+-            settings.getRounds();
+-            settings.getQuestions();
+-            //Låt player1 välja kategori.
+-            while(gameActive){
+-                //1. player1 väljer kategori
+-                //2. player2 visa väntskärm
+-                //3. player1 får slumpad fråga.
+-                setCategory();
+-                setWaitScreen();
+-                chooseCategory();
+-
+-            }
+-        }
+-        catch (IOException e) {
+-            e.printStackTrace();
+-        }
+-    }
+-
+-    private void setWaitScreen() {
+-        outPlayer2.println("SET WAIT");
+-    }
+-
+-    public void setCategory() throws IOException {
+-        while(true){
+-            if(inPlayer1.readLine().equals("startPressed")){
+-                outPlayer1.println("SET CATEGORY");
+-                break;
+-            }
+-        }
+-    }
+-    public void chooseCategory() throws IOException {
+-        String player1Choice = inPlayer1.readLine();
+-        if(player1Choice.equals("Film")){
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestion = questions.categoryList.get(0).get(ranNum);
+-            outPlayer1.println(randomQuestion);
+-            outPlayer1.println(ranNum);
+-        }
+-        if(player1Choice.equals("Musik")){
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestion = questions.categoryList.get(1).get(ranNum);
+-            outPlayer1.println(randomQuestion);
+-        }
+-        if(player1Choice.equals("Java-kunskap")){
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestion = questions.categoryList.get(2).get(ranNum);
+-            outPlayer1.println(randomQuestion);
+-        }
+-        if(player1Choice.equals("Övrigt")){
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestion = questions.categoryList.get(3).get(ranNum);
+-            outPlayer1.println(randomQuestion);
+-        }
+-    }
+-
+-    /*
+-    //Hämta antal omgångar och frågor
+-    roundsToPlay= settings.getRounds();
+-    questionsPerRound= settings.getQuestions();
+-    gameActive = true;
+-        try {
+-        player1UserName = inPlayer1.readLine();
+-        player2UserName = inPlayer2.readLine();
+-        outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
+-        outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
+-    } catch (IOException e) {
+-        e.printStackTrace();
+-    }
+-    //Låt player1 välja kategori.
+-        while(gameActive){
+-        //1. player1 väljer kategori
+-        //2. player2 visa väntskärm
+-        //3. player1 får slumpad fråga.
+-        try {
+-            setCategory();
+-            chooseCategory();
+-        }
+-        catch (IOException e) {
+-            e.printStackTrace();
+-        }
+-    }
+-
+-    p
+-*/
+-}
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"Clean-up\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Merge.Settings\">\r\n    <option name=\"BRANCH\" value=\"ServerFix\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Hu00ucNxnURgt22zxsXoabXbjq\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../DemoQK\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.QuizkampenClient\">\r\n    <configuration name=\"GameProtocol\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"GameProtocol\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameServerListener\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"GameServerListener\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenClient\" type=\"Application\" factoryName=\"Application\" singleton=\"false\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenClient\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenServer\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenServer\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.GameServerListener\" />\r\n      <item itemvalue=\"Application.QuizkampenClient\" />\r\n      <item itemvalue=\"Application.QuizkampenServer\" />\r\n      <item itemvalue=\"Application.GameProtocol\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n        <item itemvalue=\"Application.GameServerListener\" />\r\n        <item itemvalue=\"Application.GameProtocol\" />\r\n        <item itemvalue=\"Application.QuizkampenServer\" />\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"\" />\r\n      <created>1669119449433</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1669119449433</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00001\" summary=\"Server som matchar två spelare i taget för en ny spelomgång.\">\r\n      <created>1669121771786</created>\r\n      <option name=\"number\" value=\"LOCAL−00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00001\" />\r\n      <updated>1669121771786</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00002\" summary=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\">\r\n      <created>1669125562754</created>\r\n      <option name=\"number\" value=\"LOCAL−00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00002\" />\r\n      <updated>1669125562754</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00003\" summary=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\">\r\n      <created>1669125817739</created>\r\n      <option name=\"number\" value=\"LOCAL−00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00003\" />\r\n      <updated>1669125817739</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00004\" summary=\"Påbörjat spellogiken mellan client och server.\">\r\n      <created>1669235749719</created>\r\n      <option name=\"number\" value=\"LOCAL−00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00004\" />\r\n      <updated>1669235749719</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00005\" summary=\"Clean-up\">\r\n      <created>1669239761068</created>\r\n      <option name=\"number\" value=\"LOCAL−00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00005\" />\r\n      <updated>1669239761068</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00006\" summary=\"Clean-up\">\r\n      <created>1669291548393</created>\r\n      <option name=\"number\" value=\"LOCAL−00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00006\" />\r\n      <updated>1669291548393</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"7\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Server som matchar två spelare i taget för en ny spelomgång.\" />\r\n    <MESSAGE value=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\" />\r\n    <MESSAGE value=\"Påbörjat spellogiken mellan client och server.\" />\r\n    <MESSAGE value=\"CLean-up\" />\r\n    <MESSAGE value=\"Clean-up\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Clean-up\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ b/.idea/workspace.xml	(date 1669376564276)
+@@ -1,7 +1,17 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Clean-up" />
++    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Server som matchar två spelare i taget för en ny spelomgång.">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Answers.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/GameProtocol.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Questions.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Settings.java" beforeDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -20,7 +30,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="master" />
++        <entry key="$PROJECT_DIR$" value="PlayerScores" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -77,10 +87,10 @@
+     </list>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="Application.QuizkampenClient" />
+-        <item itemvalue="Application.GameServerListener" />
+         <item itemvalue="Application.GameProtocol" />
+         <item itemvalue="Application.QuizkampenServer" />
++        <item itemvalue="Application.QuizkampenClient" />
++        <item itemvalue="Application.GameServerListener" />
+         <item itemvalue="Application.QuizkampenClient" />
+       </list>
+     </recent_temporary>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"openjdk-18\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 2301e60b3b0bcd983fb90478c7e5a127f58f65c1)
++++ b/.idea/misc.xml	(date 1669376564300)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
