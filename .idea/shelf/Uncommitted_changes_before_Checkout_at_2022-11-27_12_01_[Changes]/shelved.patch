@@ -1,0 +1,170 @@
+Index: src/QuizkampenClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import javax.imageio.ImageIO;\r\nimport javax.swing.*;\r\nimport javax.swing.border.EmptyBorder;\r\nimport java.awt.*;\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\nimport java.awt.image.BufferedImage;\r\nimport java.io.*;\r\nimport java.net.InetAddress;\r\nimport java.net.Socket;\r\n\r\npublic class QuizkampenClient implements ActionListener {\r\n    JFrame frame = new JFrame(\"Quizkampen\");\r\n    JPanel basePanel = new JPanel();\r\n    BufferedImage backgroundImage = ImageIO.read(new File(\"background.jpg\"));\r\n    JLabel title = new JLabel(\"Välkommen till Quizkampen!\");\r\n    JLabel title2 = new JLabel(\"Skriv ditt namn för att börja spela: \");\r\n    JLabel score = new JLabel(\"Poäng: \");\r\n    JTextField nameField = new JTextField(\"\", 10);\r\n    JButton play = new JButton(\"Starta spel\");\r\n    JButton category1 = new JButton(\"Film\");\r\n    JButton category2 = new JButton(\"Musik\");\r\n    JButton category3 = new JButton(\"Java-kunskap\");\r\n    JButton category4 = new JButton(\"Övrigt\");\r\n    JButton answer1 = new JButton(\"Svarsalternativ 1\");\r\n    JButton answer2 = new JButton(\"Svarsalternativ 2\");\r\n    JButton answer3 = new JButton(\"Svarsalternativ 3\");\r\n    JButton answer4 = new JButton(\"Svarsalternativ 4\");\r\n\r\n    InetAddress ip = InetAddress.getLocalHost();\r\n    int port = 44444;\r\n    Socket sock = new Socket(ip, port);\r\n    PrintWriter out = new PrintWriter(sock.getOutputStream(), true);\r\n    BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));\r\n\r\n    Answers answerList = new Answers();\r\n    int currentCategory;\r\n\r\n    public QuizkampenClient() throws IOException {\r\n        frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));\r\n        frame.setLayout(new FlowLayout());\r\n        frame.add(basePanel);\r\n        frame.setSize(800, 530);\r\n        frame.setVisible(true);\r\n        frame.setLocationRelativeTo(null);\r\n        frame.setResizable(false);\r\n        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\r\n\r\n        basePanel.setLayout(new GridLayout(4, 1));\r\n        basePanel.setBorder(new EmptyBorder(100, 100, 20, 20));\r\n        basePanel.add(title);\r\n        basePanel.add(title2);\r\n        basePanel.add(nameField);\r\n        basePanel.setBackground(new Color(0, 0, 0, 0));\r\n\r\n        nameField.addActionListener(this);\r\n        title.setFont(new Font(\"Tahoma\", Font.PLAIN, 23));\r\n        score.setFont(new Font(\"Tahoma\", Font.PLAIN, 23));\r\n\r\n        String serverResponse;\r\n        while(true) {\r\n            if ((serverResponse = in.readLine()) != null){\r\n                title2.setText(serverResponse);\r\n                frame.revalidate();\r\n                frame.repaint();\r\n                basePanel.add(play);\r\n                play.addActionListener(e ->out.println(\"startPressed\"));\r\n                instructionsPlayer();\r\n                break;\r\n            }\r\n        }\r\n    }\r\n\r\n    public void instructionsPlayer() throws IOException {\r\n        while(true){\r\n            String inFromServer = in.readLine();\r\n            if(inFromServer.equals(\"SET CATEGORY\")){\r\n                title.setText(\"Välj kategori\");\r\n                basePanel.remove(title2);\r\n                basePanel.remove(nameField);\r\n                basePanel.remove(play);\r\n                basePanel.add(score);\r\n                basePanel.add(category1);\r\n                basePanel.add(category2);\r\n                basePanel.add(category3);\r\n                basePanel.add(category4);\r\n                category1.addActionListener(e -> out.println(\"Film\"));\r\n                category2.addActionListener(e -> out.println(\"Musik\"));\r\n                category3.addActionListener(e -> out.println(\"Java-kunskap\"));\r\n                category4.addActionListener(e -> out.println(\"Övrigt\"));\r\n                frame.repaint();\r\n                frame.revalidate();\r\n                answerQuestion();\r\n                break;\r\n            }\r\n            if(inFromServer.equals(\"SET WAIT\")){\r\n                title.setText(\"Väntar på din tur..\");\r\n                basePanel.remove(title2);\r\n                basePanel.remove(nameField);\r\n                basePanel.remove(play);\r\n                basePanel.add(score);\r\n                frame.repaint();\r\n                frame.revalidate();\r\n            }\r\n            //Här kommer frågan.\r\n        }\r\n    }\r\n\r\n    private void answerQuestion() throws IOException {\r\n\r\n        while(true){\r\n            String questionFromServer = in.readLine();\r\n            System.out.println(questionFromServer);\r\n            int answerIndex = Integer.parseInt(in.readLine());\r\n            System.out.println(answerIndex);\r\n            if(questionFromServer != null){\r\n                title.setText(questionFromServer);\r\n                basePanel.add(answer1);\r\n                basePanel.add(answer2);\r\n                basePanel.add(answer3);\r\n                basePanel.add(answer4);\r\n\r\n                answer1.setText(answerList.allAnswers.get(answerIndex).get(0));\r\n                answer2.setText(answerList.allAnswers.get(answerIndex).get(1));\r\n                answer3.setText(answerList.allAnswers.get(answerIndex).get(2));\r\n                answer4.setText(answerList.allAnswers.get(answerIndex).get(3));\r\n\r\n                answer1.addActionListener(this);\r\n                answer2.addActionListener(this);\r\n                answer3.addActionListener(this);\r\n                answer4.addActionListener(this);\r\n\r\n\r\n                basePanel.remove(category1);\r\n                basePanel.remove(category2);\r\n                basePanel.remove(category3);\r\n                basePanel.remove(category4);\r\n\r\n                frame.repaint();\r\n                frame.revalidate();\r\n            }\r\n        }\r\n\r\n    }\r\n\r\n    public static void main(String[] args) throws IOException {\r\n        new QuizkampenClient();\r\n    }\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n        out.println(nameField.getText());\r\n        title2.setText(\"Väntar på en motståndare..\");\r\n        frame.repaint();\r\n        frame.revalidate();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/QuizkampenClient.java b/src/QuizkampenClient.java
+--- a/src/QuizkampenClient.java	
++++ b/src/QuizkampenClient.java	
+@@ -90,7 +90,7 @@
+                 category4.addActionListener(e -> out.println("Övrigt"));
+                 frame.repaint();
+                 frame.revalidate();
+-                answerQuestion();
++                answerReceivedQuestion();
+                 break;
+             }
+             if(inFromServer.equals("SET WAIT")){
+@@ -106,13 +106,12 @@
+         }
+     }
+ 
+-    private void answerQuestion() throws IOException {
++    private void answerReceivedQuestion() throws IOException {
+ 
+         while(true){
+             String questionFromServer = in.readLine();
+             System.out.println(questionFromServer);
+             int answerIndex = Integer.parseInt(in.readLine());
+-            System.out.println(answerIndex);
+             if(questionFromServer != null){
+                 title.setText(questionFromServer);
+                 basePanel.add(answer1);
+@@ -130,7 +129,6 @@
+                 answer3.addActionListener(this);
+                 answer4.addActionListener(this);
+ 
+-
+                 basePanel.remove(category1);
+                 basePanel.remove(category2);
+                 basePanel.remove(category3);
+Index: src/QuizkampenServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.*;\r\nimport java.net.Socket;\r\nimport java.util.Random;\r\n\r\npublic class QuizkampenServer extends Thread{\r\n    Socket player1Socket;\r\n    Socket player2Socket;\r\n    PrintWriter outPlayer1;\r\n    PrintWriter outPlayer2;\r\n    BufferedReader inPlayer1;\r\n    BufferedReader inPlayer2;\r\n\r\n    Settings settings = new Settings();\r\n    Questions questionsList = new Questions();\r\n\r\n    int currentCategory;\r\n    boolean gameActive = false;\r\n\r\n    public QuizkampenServer(Socket player1, Socket player2) throws IOException {\r\n        player1Socket = player1;\r\n        player2Socket = player2;\r\n        try{\r\n            outPlayer1 = new PrintWriter(player1Socket.getOutputStream(), true);\r\n            outPlayer2 = new PrintWriter(player2Socket.getOutputStream(), true);\r\n            inPlayer1 = new BufferedReader(new InputStreamReader(player1Socket.getInputStream()));\r\n            inPlayer2 = new BufferedReader(new InputStreamReader(player2Socket.getInputStream()));\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n    public void run(){\r\n        try{\r\n            String player1UserName = inPlayer1.readLine();\r\n            String player2UserName = inPlayer2.readLine();\r\n            outPlayer1.println(\"Välkommen \" + player1UserName+\". Du kommer att spela mot \"+player2UserName+\"!\");\r\n            outPlayer2.println(\"Välkommen \" + player2UserName+\". Du kommer att spela mot \"+player1UserName+\"!\");\r\n            gameActive = true;\r\n            //Hämta antal omgångar och frågor\r\n            settings.getRounds();\r\n            settings.getQuestions();\r\n            //Låt player1 välja kategori.\r\n            while(gameActive){\r\n                //1. player1 väljer kategori\r\n                //2. player2 visa väntskärm\r\n                //3. player1 får slumpad fråga.\r\n                setCategory();\r\n                setWaitScreen();\r\n                chooseCategory();\r\n\r\n            }\r\n        }\r\n        catch (IOException e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n    private void setWaitScreen() {\r\n        outPlayer2.println(\"SET WAIT\");\r\n    }\r\n\r\n    public void setCategory() throws IOException {\r\n        while(true){\r\n            if(inPlayer1.readLine().equals(\"startPressed\")){\r\n                outPlayer1.println(\"SET CATEGORY\");\r\n                break;\r\n            }\r\n        }\r\n    }\r\n    public void chooseCategory() throws IOException {\r\n        String player1Choice = inPlayer1.readLine();\r\n        if(player1Choice.equals(\"Film\")){\r\n            currentCategory = 0;\r\n            int ranNum = new Random().nextInt(0, 3);\r\n            String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);\r\n            outPlayer1.println(randomQuestionFromMovieCategory);\r\n            outPlayer1.println(ranNum);\r\n        }\r\n        if(player1Choice.equals(\"Musik\")){\r\n            currentCategory = 1;\r\n            int ranNum = new Random().nextInt(0, 3);\r\n            String randomQuestionFromMusicCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);\r\n            outPlayer1.println(randomQuestionFromMusicCategory);\r\n            outPlayer1.println(ranNum+3);\r\n\r\n        }\r\n        if(player1Choice.equals(\"Java-kunskap\")){\r\n            currentCategory = 2;\r\n            int ranNum = new Random().nextInt(0, 3);\r\n            String randomQuestionFromJavaCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);\r\n            outPlayer1.println(randomQuestionFromJavaCategory);\r\n            outPlayer1.println(ranNum+6);\r\n\r\n        }\r\n        if(player1Choice.equals(\"Övrigt\")){\r\n            currentCategory = 3;\r\n            int ranNum = new Random().nextInt(0, 3);\r\n            String randomQuestionFromOtherCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);\r\n            outPlayer1.println(randomQuestionFromOtherCategory);\r\n            outPlayer1.println(ranNum+9);\r\n\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/QuizkampenServer.java b/src/QuizkampenServer.java
+--- a/src/QuizkampenServer.java	
++++ b/src/QuizkampenServer.java	
+@@ -40,12 +40,10 @@
+             settings.getQuestions();
+             //Låt player1 välja kategori.
+             while(gameActive){
+-                //1. player1 väljer kategori
+-                //2. player2 visa väntskärm
+-                //3. player1 får slumpad fråga.
+-                setCategory();
++                setCategoryGui();
++                playersCategoryChoice();
++                sendQuestionToPLayer();
+                 setWaitScreen();
+-                chooseCategory();
+ 
+             }
+         }
+@@ -54,11 +52,18 @@
+         }
+     }
+ 
++    private void sendQuestionToPLayer() {
++        int ranNum = new Random().nextInt(0, 3);
++        String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
++        outPlayer1.println(randomQuestionFromMovieCategory);
++        outPlayer1.println(ranNum+(currentCategory+3));
++    }
++
+     private void setWaitScreen() {
+         outPlayer2.println("SET WAIT");
+     }
+ 
+-    public void setCategory() throws IOException {
++    public void setCategoryGui() throws IOException {
+         while(true){
+             if(inPlayer1.readLine().equals("startPressed")){
+                 outPlayer1.println("SET CATEGORY");
+@@ -66,38 +71,19 @@
+             }
+         }
+     }
+-    public void chooseCategory() throws IOException {
++    public void playersCategoryChoice() throws IOException {
+         String player1Choice = inPlayer1.readLine();
+         if(player1Choice.equals("Film")){
+             currentCategory = 0;
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+-            outPlayer1.println(randomQuestionFromMovieCategory);
+-            outPlayer1.println(ranNum);
+         }
+         if(player1Choice.equals("Musik")){
+             currentCategory = 1;
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestionFromMusicCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+-            outPlayer1.println(randomQuestionFromMusicCategory);
+-            outPlayer1.println(ranNum+3);
+-
+         }
+         if(player1Choice.equals("Java-kunskap")){
+             currentCategory = 2;
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestionFromJavaCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+-            outPlayer1.println(randomQuestionFromJavaCategory);
+-            outPlayer1.println(ranNum+6);
+-
+         }
+         if(player1Choice.equals("Övrigt")){
+             currentCategory = 3;
+-            int ranNum = new Random().nextInt(0, 3);
+-            String randomQuestionFromOtherCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
+-            outPlayer1.println(randomQuestionFromOtherCategory);
+-            outPlayer1.println(ranNum+9);
+-
+         }
+     }
+ }
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"Lagt till alla frågor och svar.\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Merge.Settings\">\r\n    <option name=\"BRANCH\" value=\"ServerFix\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"master\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Hu00ucNxnURgt22zxsXoabXbjq\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../DemoQK\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.QuizkampenClient\">\r\n    <configuration name=\"GameProtocol\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"GameProtocol\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameServerListener\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"GameServerListener\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenClient\" type=\"Application\" factoryName=\"Application\" singleton=\"false\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenClient\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"QuizkampenServer\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"QuizkampenServer\" />\r\n      <module name=\"QuizkampenSpel\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.GameServerListener\" />\r\n      <item itemvalue=\"Application.QuizkampenClient\" />\r\n      <item itemvalue=\"Application.QuizkampenServer\" />\r\n      <item itemvalue=\"Application.GameProtocol\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.GameProtocol\" />\r\n        <item itemvalue=\"Application.QuizkampenServer\" />\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n        <item itemvalue=\"Application.GameServerListener\" />\r\n        <item itemvalue=\"Application.QuizkampenClient\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"17fe8b5c-9237-4f7b-a2b4-a663334235bf\" name=\"Changes\" comment=\"\" />\r\n      <created>1669119449433</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1669119449433</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00001\" summary=\"Server som matchar två spelare i taget för en ny spelomgång.\">\r\n      <created>1669121771786</created>\r\n      <option name=\"number\" value=\"LOCAL−00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00001\" />\r\n      <updated>1669121771786</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00002\" summary=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\">\r\n      <created>1669125562754</created>\r\n      <option name=\"number\" value=\"LOCAL−00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00002\" />\r\n      <updated>1669125562754</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00003\" summary=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\">\r\n      <created>1669125817739</created>\r\n      <option name=\"number\" value=\"LOCAL−00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00003\" />\r\n      <updated>1669125817739</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00004\" summary=\"Påbörjat spellogiken mellan client och server.\">\r\n      <created>1669235749719</created>\r\n      <option name=\"number\" value=\"LOCAL−00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00004\" />\r\n      <updated>1669235749719</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00005\" summary=\"Clean-up\">\r\n      <created>1669239761068</created>\r\n      <option name=\"number\" value=\"LOCAL−00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00005\" />\r\n      <updated>1669239761068</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00006\" summary=\"Clean-up\">\r\n      <created>1669291548393</created>\r\n      <option name=\"number\" value=\"LOCAL−00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00006\" />\r\n      <updated>1669291548393</updated>\r\n    </task>\r\n    <task id=\"LOCAL−00007\" summary=\"Lagt till Questions och Answers klass.\">\r\n      <created>1669373821542</created>\r\n      <option name=\"number\" value=\"LOCAL−00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL−00007\" />\r\n      <updated>1669373821542</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"8\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Server som matchar två spelare i taget för en ny spelomgång.\" />\r\n    <MESSAGE value=\"Funkar nu även för flera par samtidigt.Adderat run-metod i QuizkampenServer.\" />\r\n    <MESSAGE value=\"Påbörjat spellogiken mellan client och server.\" />\r\n    <MESSAGE value=\"CLean-up\" />\r\n    <MESSAGE value=\"Clean-up\" />\r\n    <MESSAGE value=\"Lagt till Questions och Answers klass.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Lagt till Questions och Answers klass.\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -2,7 +2,11 @@
+ <project version="4">
+   <component name="ChangeListManager">
+     <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt till alla frågor och svar.">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-25_16_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-11-25_16_31__Changes_.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Answers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Answers.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenClient.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -83,7 +87,7 @@
+         <item itemvalue="Application.QuizkampenServer" />
+         <item itemvalue="Application.QuizkampenClient" />
+         <item itemvalue="Application.GameServerListener" />
+-        <item itemvalue="Application.QuizkampenClient" />
++        <item itemvalue="Application.GameProtocol" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -159,6 +163,7 @@
+     <MESSAGE value="CLean-up" />
+     <MESSAGE value="Clean-up" />
+     <MESSAGE value="Lagt till Questions och Answers klass." />
+-    <option name="LAST_COMMIT_MESSAGE" value="Lagt till Questions och Answers klass." />
++    <MESSAGE value="Lagt till alla frågor och svar." />
++    <option name="LAST_COMMIT_MESSAGE" value="Lagt till alla frågor och svar." />
+   </component>
+ </project>
+\ No newline at end of file
