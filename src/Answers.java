@@ -166,13 +166,11 @@ public class Answers {
         allAnswers.add(answersQuestion12);
 
         //lagt till alla korrekta svar i correctAnswersLista (orkade ej googla alla just nu fixar det sen)
-        correctAnswers.add("Brad"); correctAnswers.add("Clint Eastwood"); correctAnswers.add("Margot Robbie");
-        correctAnswers.add("Ennio Morricone");correctAnswers.add("Munspel"); correctAnswers.add("Bob Dylan");
-        correctAnswers.add("James Gosling"); correctAnswers.add("Hur många som helst");
-        correctAnswers.add("Ett programmeringsspråk"); correctAnswers.add("Bamse"); correctAnswers.add("Jamaica");
-        correctAnswers.add("Bryr mig inte, kommer ändå inte gå upp dit!");
-
-
+        correctAnswers.add("Brad"); correctAnswers.add("Clint Eastwood"); correctAnswers.add("Rebel Wilson");
+        correctAnswers.add("Ennio Morricone");correctAnswers.add("Gitarr"); correctAnswers.add("Bob Dylan");
+        correctAnswers.add("James Gosling"); correctAnswers.add("Ett");
+        correctAnswers.add("Ett programmeringsspråk"); correctAnswers.add("Jo, Bo, Bo-Ko"); correctAnswers.add("Jamaica");
+        correctAnswers.add("8 848 m");
 
     }
 }

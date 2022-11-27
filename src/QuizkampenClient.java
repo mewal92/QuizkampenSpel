@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class QuizkampenClient implements ActionListener {
     JFrame frame = new JFrame("Quizkampen");
@@ -26,11 +27,12 @@ public class QuizkampenClient implements ActionListener {
     JButton answer2 = new JButton("Svarsalternativ 2");
     JButton answer3 = new JButton("Svarsalternativ 3");
     JButton answer4 = new JButton("Svarsalternativ 4");
+    ArrayList<JButton> answerButtonsList = new ArrayList<>();
 
     InetAddress ip = InetAddress.getLocalHost();
     int port = 44444;
     Socket sock = new Socket(ip, port);
-    PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
+    PrintWriter outToServer = new PrintWriter(sock.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
     Answers answerList = new Answers();
 
@@ -51,27 +53,38 @@ public class QuizkampenClient implements ActionListener {
         basePanel.add(nameField);
         basePanel.setBackground(new Color(0, 0, 0, 0));
 
+        answerButtonsList.add(answer1);
+        answerButtonsList.add(answer2);
+        answerButtonsList.add(answer3);
+        answerButtonsList.add(answer4);
+
+        answer1.addActionListener(this);
+        answer2.addActionListener(this);
+        answer3.addActionListener(this);
+        answer4.addActionListener(this);
         nameField.addActionListener(this);
+
         title.setFont(new Font("Tahoma", Font.PLAIN, 23));
         score.setFont(new Font("Tahoma", Font.PLAIN, 23));
 
-        String serverResponse;
         while (true) {
+            String serverResponse;
             if ((serverResponse = in.readLine()) != null) {
                 title2.setText(serverResponse);
                 frame.revalidate();
                 frame.repaint();
                 basePanel.add(play);
-                play.addActionListener(e -> out.println("startPressed"));
-                instructionsPlayer();
+                play.addActionListener(e -> outToServer.println("startPressed"));
+                instructionsFromServer();
                 break;
             }
         }
     }
 
-    public void instructionsPlayer() throws IOException {
+    public void instructionsFromServer() throws IOException {
         while (true) {
             String inFromServer = in.readLine();
+            System.out.println("inFromServer: " + inFromServer);
             if (inFromServer.equals("SET CATEGORY")) {
                 title.setText("Välj kategori");
                 basePanel.remove(title2);
@@ -82,10 +95,29 @@ public class QuizkampenClient implements ActionListener {
                 basePanel.add(category2);
                 basePanel.add(category3);
                 basePanel.add(category4);
-                category1.addActionListener(e -> out.println("Film"));
-                category2.addActionListener(e -> out.println("Musik"));
-                category3.addActionListener(e -> out.println("Java-kunskap"));
-                category4.addActionListener(e -> out.println("Övrigt"));
+                category1.addActionListener(e -> outToServer.println("Film"));
+                category2.addActionListener(e -> outToServer.println("Musik"));
+                category3.addActionListener(e -> outToServer.println("Java-kunskap"));
+                category4.addActionListener(e -> outToServer.println("Övrigt"));
+                frame.repaint();
+                frame.revalidate();
+            }
+            if (inFromServer.equals("SET QUESTION")) {
+                basePanel.add(answer1);
+                basePanel.add(answer2);
+                basePanel.add(answer3);
+                basePanel.add(answer4);
+
+                answer1.setBackground(Color.white);
+                answer2.setBackground(Color.white);
+                answer3.setBackground(Color.white);
+                answer4.setBackground(Color.white);
+
+                basePanel.remove(category1);
+                basePanel.remove(category2);
+                basePanel.remove(category3);
+                basePanel.remove(category4);
+
                 frame.repaint();
                 frame.revalidate();
                 answerQuestion();
@@ -99,79 +131,63 @@ public class QuizkampenClient implements ActionListener {
                 basePanel.add(score);
                 frame.repaint();
                 frame.revalidate();
+                break;
             }
-            //Här kommer frågan.
+
         }
     }
 
     private void answerQuestion() throws IOException {
         while (true) {
             String questionFromServer = in.readLine();
-            System.out.println(questionFromServer);
             int answerIndex = Integer.parseInt(in.readLine());
-            System.out.println(answerIndex);
             if (questionFromServer != null) {
                 title.setText(questionFromServer);
-                basePanel.add(answer1);
-                basePanel.add(answer2);
-                basePanel.add(answer3);
-                basePanel.add(answer4);
 
                 answer1.setText(answerList.allAnswers.get(answerIndex).get(0));
                 answer2.setText(answerList.allAnswers.get(answerIndex).get(1));
                 answer3.setText(answerList.allAnswers.get(answerIndex).get(2));
                 answer4.setText(answerList.allAnswers.get(answerIndex).get(3));
-
-                answer1.addActionListener(this);
-                answer2.addActionListener(this);
-                answer3.addActionListener(this);
-                answer4.addActionListener(this);
-
-                basePanel.remove(category1);
-                basePanel.remove(category2);
-                basePanel.remove(category3);
-                basePanel.remove(category4);
-
-                frame.repaint();
-                frame.revalidate();
+                break;
             }
         }
     }
+
     public static void main(String[] args) throws IOException {
         new QuizkampenClient();
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
-        out.println(nameField.getText());
-        title2.setText("Väntar på en motståndare..");
-        frame.repaint();
-        frame.revalidate();
+        if(e.getSource() == nameField){
+            outToServer.println(nameField.getText());
+            title2.setText("Väntar på en motspelare..");
+            frame.repaint();
+            frame.revalidate();
+        }else{
+            for (JButton jButton : answerButtonsList) {
+                if (e.getSource() == jButton) {
+                    if (answerList.correctAnswers.contains(jButton.getText())) {
+                        jButton.setBackground(Color.green);
+                        outToServer.println("CorrectAnswer");
+                    } else {
+                        jButton.setBackground(Color.red);
+                        outToServer.println("WrongAnswer");
+                    }
+                    frame.repaint();
+                    frame.revalidate();
 
-
-        //Kollar om spelaren har tryckt på answer1 och om det svarsalternativet finns i korrektasvar-listan
-        //och samma på else if fast knappen blir röd om svaret är fel
-        if (e.getSource() == answer1 && answerList.correctAnswers.contains(answer1.getText())) {
-            //om den är korrekt blir knappen grön
-            answer1.setBackground(Color.green);
-        } else if (e.getSource() == answer1 && !answerList.correctAnswers.contains(answer1.getText())) {
-            answer1.setBackground(Color.red);
-        }
-            //OSV samma logik fast resterande svarsknappar
-         else if (e.getSource() == answer2 && answerList.correctAnswers.contains(answer2.getText())) {
-            answer2.setBackground(Color.green);
-        } else if (e.getSource() == answer2 && !answerList.correctAnswers.contains(answer2.getText())) {
-            answer2.setBackground(Color.red);
-        }
-       else if (e.getSource() == answer3 && answerList.correctAnswers.contains(answer3.getText())) {
-            answer3.setBackground(Color.green);
-        } else if (e.getSource() == answer3 && !answerList.correctAnswers.contains(answer3.getText())) {
-            answer3.setBackground(Color.red);
-        }
-       else if (e.getSource() == answer4 && answerList.correctAnswers.contains(answer4.getText())) {
-            answer4.setBackground(Color.green);
-        } else if (e.getSource() == answer4 && !answerList.correctAnswers.contains(answer4.getText())) {
-            answer4.setBackground(Color.red);
+                    ActionListener taskPerformer = e1 -> {
+                        try {
+                            instructionsFromServer();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    };
+                    Timer timer = new Timer(1000, taskPerformer);
+                    timer.setRepeats(false);
+                    timer.start();
+                }
+            }
         }
     }
 }

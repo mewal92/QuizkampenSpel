@@ -8,6 +8,7 @@ public class GameServerListener {
             while(true){
                 Socket player1 = listener.accept();
                 Socket player2 = listener.accept();
+                System.out.println("two players connected");
                 QuizkampenServer game = new QuizkampenServer(player1, player2);
                 game.start();
             }
