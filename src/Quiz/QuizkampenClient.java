@@ -39,6 +39,7 @@ public class QuizkampenClient implements ActionListener {
         Answers answerList = new Answers();
         String currentCat = "";
         JLabel slut = new JLabel("slut");
+        String rättSvar = "";
 
         int questionCounter = 0;
         int roundCounter = 0;
@@ -59,7 +60,11 @@ public class QuizkampenClient implements ActionListener {
             basePanel.add(nameField);
             basePanel.setBackground(new Color(0, 0, 0, 0));
 
-            nameField.addActionListener(this);
+            nameField.addActionListener(e -> {
+                    out.println(nameField.getText());
+            title2.setText("Väntar på en motståndare..");
+            frame.repaint();
+            frame.revalidate();});
             title.setFont(new Font("Tahoma", Font.PLAIN, 23));
             score.setFont(new Font("Tahoma", Font.PLAIN, 23));
 
@@ -80,6 +85,7 @@ public class QuizkampenClient implements ActionListener {
 
             while (true) {
                 String inFromServer = in.readLine();
+                System.out.println(inFromServer);
                 if (inFromServer.equals("SET CATEGORY")) {
                     System.out.println("ny bräda");
                     instructionsPlayer();
@@ -146,9 +152,9 @@ public class QuizkampenClient implements ActionListener {
         private void answerQuestion() throws IOException {
                 currentCat = in.readLine();
                 String questionFromServer = in.readLine();
+                rättSvar = in.readLine();
                 System.out.println(questionFromServer);
-                int answerIndex = Integer.parseInt(in.readLine());
-                System.out.println(answerIndex);
+
                 if (questionFromServer != null) {
                     questionCounter ++;
                     title.setText(questionFromServer);
@@ -156,11 +162,13 @@ public class QuizkampenClient implements ActionListener {
                     basePanel.add(answer2);
                     basePanel.add(answer3);
                     basePanel.add(answer4);
+                    frame.add(vidare);
+                    vidare.setVisible(false);
 
-                    answer1.setText(answerList.allAnswers.get(answerIndex).get(0));
-                    answer2.setText(answerList.allAnswers.get(answerIndex).get(1));
-                    answer3.setText(answerList.allAnswers.get(answerIndex).get(2));
-                    answer4.setText(answerList.allAnswers.get(answerIndex).get(3));
+                    answer1.setText(in.readLine());
+                    answer2.setText(in.readLine());
+                    answer3.setText(in.readLine());
+                    answer4.setText(in.readLine());
 
                     answer1.addActionListener(this);
                     answer2.addActionListener(this);
@@ -187,7 +195,7 @@ public class QuizkampenClient implements ActionListener {
                 out.println("slut");
                 frame.add(slut);
             } else if (questionCounter !=2){
-                System.out.println("hit3");
+                System.out.println("hit2");
                 System.out.println(currentCat);
                 out.println("vidarePressed");
                 out.println(currentCat);
@@ -197,42 +205,43 @@ public class QuizkampenClient implements ActionListener {
                 basePanel.remove(answer2);
                 basePanel.remove(answer3);
                 basePanel.remove(answer4);
-                System.out.println("hit2");
-                instructionsPlayer();
+                System.out.println("hit3");
+                out.println("startPressed");
             }
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            out.println(nameField.getText());
+            /*out.println(nameField.getText());
             title2.setText("Väntar på en motståndare..");
             frame.repaint();
-            frame.revalidate();
-
+            frame.revalidate();*/
 
             //Kollar om spelaren har tryckt på answer1 och om det svarsalternativet finns i korrektasvar-listan
             //och samma på else if fast knappen blir röd om svaret är fel
-            if (e.getSource() == answer1 && answerList.correctAnswers.contains(answer1.getText())) {
+            if (e.getSource() == answer1 && answer1.getText().equals(rättSvar)) {
                 //om den är korrekt blir knappen grön
                 answer1.setBackground(Color.green);
-                frame.add(vidare);
-            } else if (e.getSource() == answer1 && !answerList.correctAnswers.contains(answer1.getText())) {
+                vidare.setVisible(true);
+                frame.repaint();
+            } else if (e.getSource() == answer1 && !answer1.getText().equals(rättSvar)) {
                 answer1.setBackground(Color.red);
-                frame.add(vidare);
+                vidare.setVisible(true);
+                frame.repaint();
             }
             //OSV samma logik fast resterande svarsknappar
-            else if (e.getSource() == answer2 && answerList.correctAnswers.contains(answer2.getText())) {
+            else if (e.getSource() == answer2 && answer2.getText().equals(rättSvar)) {
                 answer2.setBackground(Color.green);
-            } else if (e.getSource() == answer2 && !answerList.correctAnswers.contains(answer2.getText())) {
+            } else if (e.getSource() == answer2 && !answer2.getText().equals(rättSvar)) {
                 answer2.setBackground(Color.red);
             }
-            else if (e.getSource() == answer3 && answerList.correctAnswers.contains(answer3.getText())) {
+            else if (e.getSource() == answer3 && answer3.getText().equals(rättSvar)) {
                 answer3.setBackground(Color.green);
-            } else if (e.getSource() == answer3 && !answerList.correctAnswers.contains(answer3.getText())) {
+            } else if (e.getSource() == answer3 && !answer3.getText().equals(rättSvar)) {
                 answer3.setBackground(Color.red);
             }
-            else if (e.getSource() == answer4 && answerList.correctAnswers.contains(answer4.getText())) {
+            else if (e.getSource() == answer4 && answer4.getText().equals(rättSvar)) {
                 answer4.setBackground(Color.green);
-            } else if (e.getSource() == answer4 && !answerList.correctAnswers.contains(answer4.getText())) {
+            } else if (e.getSource() == answer4 && !answer4.getText().equals(rättSvar)) {
                 answer4.setBackground(Color.red);
             }
             if (e.getSource() == vidare){

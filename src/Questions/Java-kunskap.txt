@@ -1,0 +1,15 @@
+Vem kallas the Father of Java?
+James Gosling
+Bill Gates
+Linus Torvalds
+Sergei Brinn
+Hur många arv är tillåtna per klass i Java?
+Hur många som helst
+Två
+Ett
+Inga alls
+Vad är Java?
+Ett programmeringsspråk
+En yoga-position
+Ett land
+En kaffesort
