@@ -1,3 +1,5 @@
+package Quiz;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 public class QuizkampenClient implements ActionListener {
     JFrame frame = new JFrame("Quizkampen");
     JPanel basePanel = new JPanel();
-    BufferedImage backgroundImage = ImageIO.read(new File("background.jpg"));
+    BufferedImage backgroundImage = ImageIO.read(new File("src/Images/background.jpg"));
     JLabel title = new JLabel("Välkommen till Quizkampen!");
     JLabel title2 = new JLabel("Skriv ditt namn för att börja spela: ");
     JLabel score = new JLabel("Poäng: ");
@@ -28,13 +30,18 @@ public class QuizkampenClient implements ActionListener {
     JButton answer3 = new JButton("Svarsalternativ 3");
     JButton answer4 = new JButton("Svarsalternativ 4");
     ArrayList<JButton> answerButtonsList = new ArrayList<>();
-
+    ArrayList<JButton> categoryButtonsList = new ArrayList<>();
     InetAddress ip = InetAddress.getLocalHost();
     int port = 44444;
     Socket sock = new Socket(ip, port);
     PrintWriter outToServer = new PrintWriter(sock.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-    Answers answerList = new Answers();
+    String currentCat = "";
+    JLabel slut = new JLabel("slut");
+    String rättSvar = "";
+
+    int questionCounter = 0;
+    int roundCounter = 0;
 
     public QuizkampenClient() throws IOException {
         frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
@@ -57,11 +64,19 @@ public class QuizkampenClient implements ActionListener {
         answerButtonsList.add(answer2);
         answerButtonsList.add(answer3);
         answerButtonsList.add(answer4);
+        categoryButtonsList.add(category1);
+        categoryButtonsList.add(category2);
+        categoryButtonsList.add(category3);
+        categoryButtonsList.add(category4);
 
         answer1.addActionListener(this);
         answer2.addActionListener(this);
         answer3.addActionListener(this);
         answer4.addActionListener(this);
+        category1.addActionListener(this);
+        category2.addActionListener(this);
+        category3.addActionListener(this);
+        category4.addActionListener(this);
         nameField.addActionListener(this);
 
         title.setFont(new Font("Tahoma", Font.PLAIN, 23));
@@ -95,10 +110,6 @@ public class QuizkampenClient implements ActionListener {
                 basePanel.add(category2);
                 basePanel.add(category3);
                 basePanel.add(category4);
-                category1.addActionListener(e -> outToServer.println("Film"));
-                category2.addActionListener(e -> outToServer.println("Musik"));
-                category3.addActionListener(e -> outToServer.println("Java-kunskap"));
-                category4.addActionListener(e -> outToServer.println("Övrigt"));
                 frame.repaint();
                 frame.revalidate();
             }
@@ -135,19 +146,25 @@ public class QuizkampenClient implements ActionListener {
             }
 
         }
-    }
+            }
+
+
 
     private void answerQuestion() throws IOException {
         while (true) {
+            //currentCat = in.readLine();
+            //tillagd för lokal kategori
             String questionFromServer = in.readLine();
-            int answerIndex = Integer.parseInt(in.readLine());
+            rättSvar = in.readLine();
             if (questionFromServer != null) {
                 title.setText(questionFromServer);
-
-                answer1.setText(answerList.allAnswers.get(answerIndex).get(0));
-                answer2.setText(answerList.allAnswers.get(answerIndex).get(1));
-                answer3.setText(answerList.allAnswers.get(answerIndex).get(2));
-                answer4.setText(answerList.allAnswers.get(answerIndex).get(3));
+                questionCounter ++;
+                if(questionCounter == 2)
+                    roundCounter++;
+                answer1.setText(in.readLine());
+                answer2.setText(in.readLine());
+                answer3.setText(in.readLine());
+                answer4.setText(in.readLine());
                 break;
             }
         }
@@ -166,7 +183,7 @@ public class QuizkampenClient implements ActionListener {
         }else{
             for (JButton jButton : answerButtonsList) {
                 if (e.getSource() == jButton) {
-                    if (answerList.correctAnswers.contains(jButton.getText())) {
+                    if (rättSvar.contains(jButton.getText())) {
                         jButton.setBackground(Color.green);
                         outToServer.println("CorrectAnswer");
                     } else {
@@ -186,6 +203,12 @@ public class QuizkampenClient implements ActionListener {
                     Timer timer = new Timer(1000, taskPerformer);
                     timer.setRepeats(false);
                     timer.start();
+                }
+            }
+            for (JButton jButton: categoryButtonsList){
+                if (e.getSource() == jButton){
+                    outToServer.println("vidarePressed");
+                    outToServer.println(jButton.getText());
                 }
             }
         }

@@ -1,3 +1,5 @@
+package Quiz;
+
 import java.io.FileInputStream;
 import java.util.Properties;
 
@@ -8,7 +10,7 @@ public class Settings {
     public Settings(){
         Properties p = new Properties();
         try{
-            p.load(new FileInputStream("src/settings.properties"));
+            p.load(new FileInputStream("src/Quiz/settings.properties"));
         } catch (Exception e) {
             e.printStackTrace();
         }
