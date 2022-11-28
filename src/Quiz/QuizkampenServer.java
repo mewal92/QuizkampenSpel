@@ -23,6 +23,7 @@ public class QuizkampenServer extends Thread {
     int questionsPerRound = settings.getQuestions();
     String currentCategory;
     int answeredQuestionsThisRound = 0;
+    int roundsPlayed = 0;
     int scorePlayer1;
     int scorePlayer2;
     Questions currentQuestion;
@@ -65,11 +66,15 @@ public class QuizkampenServer extends Thread {
                 } else if (position.equals("CorrectAnswer")) {
                     scorePlayer1++;
                     answeredQuestionsThisRound++;
+                    if (answeredQuestionsThisRound==questionsPerRound)
+                        roundsPlayed++;
                     System.out.println("correct answer received");
                     progressCheck();
                 } else if (position.equals("WrongAnswer")) {
                     System.out.println("wrong answer received");
                     answeredQuestionsThisRound++;
+                    if (answeredQuestionsThisRound==questionsPerRound)
+                        roundsPlayed++;
                     progressCheck();
             }
         }
@@ -81,7 +86,7 @@ public class QuizkampenServer extends Thread {
     }
     public void endGame() throws IOException {
 
-        outPlayer1.println("SLUT");
+        outPlayer1.println("QUIT");
         gameActive = false;
     }
     public void setCategoryGui() throws IOException {
@@ -89,64 +94,16 @@ public class QuizkampenServer extends Thread {
         System.out.println("hit2");
         outPlayer1.println("SET CATEGORY");
     }
-    /*public void playersCategoryChoice() throws IOException {
-        while(true){
-            String player1Choice = inPlayer1.readLine();
-            if(player1Choice.equals("Film")){
-                currentCategory = 0;
-                break;
-            }
-            if(player1Choice.equals("Musik")){
-                currentCategory = 1;
-                break;
-            }
-            if(player1Choice.equals("Java-kunskap")){
-                currentCategory = 2;
-                break;
-            }
-            if(player1Choice.equals("Övrigt")){
-                currentCategory = 3;
-                break;
-            }
-        }
-    }*/
-    private void setQuestionGui() {
-        outPlayer1.println("SET QUESTION");
-    }
-    /*private void sendQuestionToPlayer() throws IOException, InterruptedException {
-        int ranNum = new Random().nextInt(0, 3);
-        String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
-        outPlayer1.println(randomQuestionFromMovieCategory);
-        outPlayer1.println(ranNum+(currentCategory*3));
-        answerFromPlayer();
-    }
-*/
-   /* private void answerFromPlayer() throws IOException, InterruptedException {
-        while(true){
-            String answerFromPlayer = inPlayer1.readLine();
-            if(answerFromPlayer.equals("CorrectAnswer")){
-                scorePlayer1++;
-                answeredQuestionsThisRound++;
-                System.out.println("correct answer received");
-                progressCheck();
-                break;
-
-            }else if(answerFromPlayer.equals("WrongAnswer")){
-                System.out.println("wrong answer received");
-                answeredQuestionsThisRound++;
-                progressCheck();
-                break;
-            }
-        }
-    }*/
 
     private void progressCheck() throws IOException, InterruptedException {
-
-            if (answeredQuestionsThisRound == questionsPerRound) {
+            if (answeredQuestionsThisRound == questionsPerRound && roundsPlayed==rounds){
+                endGame();
+            }
+            else if (answeredQuestionsThisRound == questionsPerRound) {
                 //outPlayer1.println("SET CATEGORY");
                 System.out.println("hit");
-                rounds++;
                 setCategoryGui();
+                System.out.println("rounds played = "+roundsPlayed);
                 //Visa väntGUI för player1. Skicka choose category till player 2.
             } else {
                 sendQuestionToPlayer(readQuestion(currentCategory));
@@ -232,12 +189,9 @@ public class QuizkampenServer extends Thread {
         String player1Choice = inPlayer1.readLine();
         currentQuestion = readQuestion(player1Choice);
         currentCategory = player1Choice;
-       // while (currentQuestion == null) {
-        //    currentQuestion = readQuestion(player1Choice);
-        //}
         sendQuestionToPlayer(currentQuestion);
         }
-        public void sendQuestionToPlayer(Questions q) throws IOException, InterruptedException {
+        public void sendQuestionToPlayer(Questions q) {
             outPlayer1.println("SET QUESTION");
             //outPlayer1.println(player1Choice);
             currentQuestion = q;

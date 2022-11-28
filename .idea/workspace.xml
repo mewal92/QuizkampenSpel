@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Ny master mergade frågor">
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="En rond med 2 frågor funkar. Sen låser det sig. Kommer till ny kategori men ritar ej upp skärmen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/Settings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +38,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/phili/QuizkampenSpel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\phili\QuizkampenSpel\src\Questions" />
@@ -107,8 +106,8 @@
       <list>
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
-        <item itemvalue="Application.Settings" />
         <item itemvalue="Application.QuizkampenServer" />
+        <item itemvalue="Application.Settings" />
         <item itemvalue="Application.GameProtocol" />
       </list>
     </recent_temporary>
@@ -122,6 +121,8 @@
       <option name="presentableId" value="Default" />
       <updated>1669119449433</updated>
       <workItem from="1669656728845" duration="5963000" />
+      <workItem from="1669667870284" duration="1458000" />
+      <workItem from="1669669364745" duration="2652000" />
     </task>
     <task id="LOCAL−00001" summary="Server som matchar två spelare i taget för en ny spelomgång.">
       <created>1669121771786</created>
@@ -189,7 +190,13 @@
       <option name="presentableId" value="LOCAL−00011" />
       <updated>1669547727773</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL−00012" summary="En rond med 2 frågor funkar. Sen låser det sig. Kommer till ny kategori men ritar ej upp skärmen">
+      <created>1669667987349</created>
+      <option name="number" value="LOCAL−00012" />
+      <option name="presentableId" value="LOCAL−00012" />
+      <updated>1669667987349</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +221,7 @@
     <MESSAGE value="Clean-up" />
     <MESSAGE value="Logik som checkar vilket svar spelaren har valt, och om svarsalternativet är rätt eller fel" />
     <MESSAGE value="Lagt till alla frågor och svar." />
-    <option name="LAST_COMMIT_MESSAGE" value="Lagt till alla frågor och svar." />
+    <MESSAGE value="En rond med 2 frågor funkar. Sen låser det sig. Kommer till ny kategori men ritar ej upp skärmen" />
+    <option name="LAST_COMMIT_MESSAGE" value="En rond med 2 frågor funkar. Sen låser det sig. Kommer till ny kategori men ritar ej upp skärmen" />
   </component>
 </project>
