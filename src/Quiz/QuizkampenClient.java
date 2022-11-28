@@ -1,10 +1,16 @@
 package Quiz;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.imageio.ImageIO;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+>>>>>>> origin/master_philips_version
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -62,7 +68,7 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
                 category4.addActionListener(this);
             }
             if (inFromServer.equals("SET QUESTION")) {
-              setQuestionScreenGUI();
+                setQuestionScreenGUI();
                 answer1.addActionListener(this);
                 answer2.addActionListener(this);
                 answer3.addActionListener(this);
@@ -78,7 +84,7 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
             }
 
         }
-            }
+    }
 
     private void answerQuestion() throws IOException {
         while (true) {
@@ -89,8 +95,8 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
             rättSvar = in.readLine();
             if (questionFromServer != null) {
                 title.setText(questionFromServer);
-                questionCounter ++;
-                if(questionCounter == 2)
+                questionCounter++;
+                if (questionCounter == 2)
                     roundCounter++;
                 answer1.setText(in.readLine());
                 answer2.setText(in.readLine());
@@ -104,6 +110,30 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
     public static void main(String[] args) throws IOException {
         new QuizkampenClient();
     }
+
+
+    public void progressCheck() throws IOException {
+        if (questionCounter == 2 && roundCounter == 2) {
+            System.out.println("hit1");
+            out.println("slut");
+            frame.add(slut);
+        } else if (questionCounter != 2) {
+            System.out.println("hit2");
+            System.out.println(currentCat);
+            for (JButton jButton : answerButtonsList)
+                jButton.setBackground(Color.LIGHT_GRAY);
+            out.println("vidarePressed");
+            out.println(currentCat);
+        } else {
+            questionCounter = 0;
+            if (jButton.getText().equals(currentCat)) {
+                jButton.setVisible(false);
+            }
+        }
+        System.out.println("hit3");
+        out.println("newRound");
+    }
+
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == nameField){
@@ -146,3 +176,4 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
         }
     }
 }
+
