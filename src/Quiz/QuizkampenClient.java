@@ -110,6 +110,10 @@ public class QuizkampenClient implements ActionListener {
                 basePanel.add(category2);
                 basePanel.add(category3);
                 basePanel.add(category4);
+                basePanel.remove(answer1);
+                basePanel.remove(answer2);
+                basePanel.remove(answer3);
+                basePanel.remove(answer4);
                 frame.repaint();
                 frame.revalidate();
             }
@@ -158,9 +162,7 @@ public class QuizkampenClient implements ActionListener {
             rättSvar = in.readLine();
             if (questionFromServer != null) {
                 title.setText(questionFromServer);
-                questionCounter ++;
-                if(questionCounter == 2)
-                    roundCounter++;
+
                 answer1.setText(in.readLine());
                 answer2.setText(in.readLine());
                 answer3.setText(in.readLine());
@@ -175,12 +177,12 @@ public class QuizkampenClient implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == nameField){
+        if (e.getSource() == nameField) {
             outToServer.println(nameField.getText());
             title2.setText("Väntar på en motspelare..");
             frame.repaint();
             frame.revalidate();
-        }else{
+        }
             for (JButton jButton : answerButtonsList) {
                 if (e.getSource() == jButton) {
                     if (rättSvar.contains(jButton.getText())) {
@@ -205,12 +207,13 @@ public class QuizkampenClient implements ActionListener {
                     timer.start();
                 }
             }
-            for (JButton jButton: categoryButtonsList){
-                if (e.getSource() == jButton){
+            for (JButton jButton : categoryButtonsList) {
+                if (e.getSource() == jButton) {
                     outToServer.println("vidarePressed");
                     outToServer.println(jButton.getText());
                 }
+
             }
         }
     }
-}
+

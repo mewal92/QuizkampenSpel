@@ -60,11 +60,21 @@ public class QuizkampenServer extends Thread {
                 } else if (position.equals("startPressed")) {
                     setWaitScreen();
                     setCategoryGui();
-                }else if (position.equals("newRound")){
+                } else if (position.equals("newRound")) {
                     //setCategoryGUI();
-                }
-
+                } else if (position.equals("CorrectAnswer")) {
+                    scorePlayer1++;
+                    answeredQuestionsThisRound++;
+                    System.out.println("correct answer received");
+                    progressCheck();
+                } else if (position.equals("WrongAnswer")) {
+                    System.out.println("wrong answer received");
+                    answeredQuestionsThisRound++;
+                    progressCheck();
             }
+        }
+
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -75,6 +85,8 @@ public class QuizkampenServer extends Thread {
         gameActive = false;
     }
     public void setCategoryGui() throws IOException {
+        answeredQuestionsThisRound=0;
+        System.out.println("hit2");
         outPlayer1.println("SET CATEGORY");
     }
     /*public void playersCategoryChoice() throws IOException {
@@ -109,33 +121,35 @@ public class QuizkampenServer extends Thread {
         answerFromPlayer();
     }
 */
-    private void answerFromPlayer() throws IOException, InterruptedException {
+   /* private void answerFromPlayer() throws IOException, InterruptedException {
         while(true){
             String answerFromPlayer = inPlayer1.readLine();
             if(answerFromPlayer.equals("CorrectAnswer")){
                 scorePlayer1++;
                 answeredQuestionsThisRound++;
-                progressCheck();
                 System.out.println("correct answer received");
+                progressCheck();
                 break;
 
             }else if(answerFromPlayer.equals("WrongAnswer")){
+                System.out.println("wrong answer received");
                 answeredQuestionsThisRound++;
                 progressCheck();
                 break;
             }
         }
-    }
+    }*/
 
-    private void progressCheck() {
-        if(answeredQuestionsThisRound == questionsPerRound){
-            outPlayer1.println("SET CATEGORY");
-            rounds++;
-            //Visa väntGUI för player1. Skicka choose category till player 2.
-        }else{
+    private void progressCheck() throws IOException, InterruptedException {
 
-            readQuestion(currentCategory);
-            setQuestionGui();
+            if (answeredQuestionsThisRound == questionsPerRound) {
+                //outPlayer1.println("SET CATEGORY");
+                System.out.println("hit");
+                rounds++;
+                setCategoryGui();
+                //Visa väntGUI för player1. Skicka choose category till player 2.
+            } else {
+                sendQuestionToPlayer(readQuestion(currentCategory));
         }
     }
 
@@ -150,8 +164,9 @@ public class QuizkampenServer extends Thread {
 
             hopp = (new Random().nextInt(0, längd / 5) * 5);
             //hoppar 5 rader random till en fråga
-            for (int i = 0; i < hopp; i++)
+            for (int i = 0; i < hopp; i++) {
                 scan.nextLine();
+            }
             String fråga = scan.nextLine();
             String rättSvar = scan.nextLine();
             String felSvar1 = scan.nextLine();
@@ -166,19 +181,10 @@ public class QuizkampenServer extends Thread {
             for (Questions f : Questions.questionList) {
                 if (f.getFråga().equals(question.getFråga())) {
                     System.out.println("ja");
-                    return null;
+                    return readQuestion(currentCategory);
                 }
-            }
-            Questions.addQuestionList(question);
+            }Questions.addQuestionList(question);
             return question;
-
-                /*for (Questions f : Questions.questionList) {
-                    System.out.println(f.getRättSvar());
-                    if (f.getFråga().equals(question.getFråga())) {
-                        System.out.println("ja");
-                        return null;
-                    }
-                }*/
 
 
         } catch (
@@ -226,19 +232,20 @@ public class QuizkampenServer extends Thread {
         String player1Choice = inPlayer1.readLine();
         currentQuestion = readQuestion(player1Choice);
         currentCategory = player1Choice;
-        while (currentQuestion == null) {
-            currentQuestion = readQuestion(player1Choice);
-        }
+       // while (currentQuestion == null) {
+        //    currentQuestion = readQuestion(player1Choice);
+        //}
         sendQuestionToPlayer(currentQuestion);
         }
         public void sendQuestionToPlayer(Questions q) throws IOException, InterruptedException {
             outPlayer1.println("SET QUESTION");
             //outPlayer1.println(player1Choice);
+            currentQuestion = q;
             outPlayer1.println(currentQuestion.getFråga());
             outPlayer1.println(currentQuestion.getRättSvar());
             shuffleAnswers(currentQuestion.getRättSvar(), currentQuestion.getFelSvar1(),
                     currentQuestion.getFelSvar2(), currentQuestion.getFelSvar3());
-            answerFromPlayer();
+            //answerFromPlayer();
         }
     private void setWaitScreen () {
         outPlayer2.println("SET WAIT");

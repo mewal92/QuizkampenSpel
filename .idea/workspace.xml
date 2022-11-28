@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt till alla frågor och svar.">
-      <change afterPath="$PROJECT_DIR$/src/Images/background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Film.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Java-kunskap.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Musik.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Övrigt.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Ny master mergade frågor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameProtocol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Questions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/Questions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/Settings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="PetersVersion" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,7 +41,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel/src/Questions"
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -91,7 +83,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Settings" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Quiz.Settings" />
+      <module name="QuizkampenSpel" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Quiz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Application.Settings" />
       <item itemvalue="Application.GameProtocol" />
       <item itemvalue="Application.GameServerListener" />
       <item itemvalue="Application.QuizkampenClient" />
@@ -101,9 +107,9 @@
       <list>
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
-        <item itemvalue="Application.GameProtocol" />
+        <item itemvalue="Application.Settings" />
         <item itemvalue="Application.QuizkampenServer" />
-        <item itemvalue="Application.QuizkampenClient" />
+        <item itemvalue="Application.GameProtocol" />
       </list>
     </recent_temporary>
   </component>
@@ -115,6 +121,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669119449433</updated>
+      <workItem from="1669656728845" duration="5963000" />
     </task>
     <task id="LOCAL−00001" summary="Server som matchar två spelare i taget för en ny spelomgång.">
       <created>1669121771786</created>
@@ -184,6 +191,9 @@
     </task>
     <option name="localTasksCounter" value="12" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
