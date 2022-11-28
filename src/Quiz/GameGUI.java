@@ -62,13 +62,9 @@ public class GameGUI extends JFrame {
         title.setText("Välj kategori");
         basePanel.setLayout(new GridLayout(4,1));
       category1 = new JButton("Film");
-      category1.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.darkGray, Color.black, Color.white  ));
         category2 = new JButton("Musik");
-        category2.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.darkGray, Color.black, Color.white  ));
         category3 = new JButton("Java-kunskap");
-        category3.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.darkGray, Color.black, Color.white  ));
        category4 = new JButton("Övrigt");
-        category4.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray, Color.darkGray, Color.black, Color.white  ));
         basePanel.add(category1);
         basePanel.add(category2);
         basePanel.add(category3);
@@ -106,6 +102,7 @@ public class GameGUI extends JFrame {
 
 
     public void setSummaryGUI(){
+        //fixar här mer imorgon
         title.setText("Här kommer poängen för ronden stå:");
         basePanel.add(title);
         frame.revalidate();
@@ -113,6 +110,7 @@ public class GameGUI extends JFrame {
     }
 
    public void setEndScreenGUI() {
+        //fixar här mer imorgon
         title.setText("END SCREEN - här visas vinnare samt resultat");
         basePanel.add(title);
         revalidate();

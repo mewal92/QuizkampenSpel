@@ -4,13 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.imageio.ImageIO;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
->>>>>>> origin/master_philips_version
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -106,12 +99,6 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
             }
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        new QuizkampenClient();
-    }
-
-
     public void progressCheck() throws IOException {
         if (questionCounter == 2 && roundCounter == 2) {
             System.out.println("hit1");
@@ -132,6 +119,10 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
         }
         System.out.println("hit3");
         out.println("newRound");
+    }
+
+    public static void main(String[] args) throws IOException {
+        new QuizkampenClient();
     }
 
 

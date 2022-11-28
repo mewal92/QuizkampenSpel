@@ -14,6 +14,7 @@ public class GameServerListener {
                 game.start();
             }
         }catch (IOException e){
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }
