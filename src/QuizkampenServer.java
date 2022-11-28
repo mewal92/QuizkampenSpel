@@ -9,6 +9,8 @@ public class QuizkampenServer extends Thread{
     PrintWriter outPlayer2;
     BufferedReader inPlayer1;
     BufferedReader inPlayer2;
+    int playerOneScore;
+    int playerTwoScore;
 
     Settings settings = new Settings();
     Questions questionsList = new Questions();
@@ -35,14 +37,9 @@ public class QuizkampenServer extends Thread{
             outPlayer1.println("Välkommen " + player1UserName+". Du kommer att spela mot "+player2UserName+"!");
             outPlayer2.println("Välkommen " + player2UserName+". Du kommer att spela mot "+player1UserName+"!");
             gameActive = true;
-            //Hämta antal omgångar och frågor
             settings.getRounds();
             settings.getQuestions();
-            //Låt player1 välja kategori.
             while(gameActive){
-                //1. player1 väljer kategori
-                //2. player2 visa väntskärm
-                //3. player1 får slumpad fråga.
                 setCategory();
                 setWaitScreen();
                 chooseCategory();
@@ -74,6 +71,8 @@ public class QuizkampenServer extends Thread{
             String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
             outPlayer1.println(randomQuestionFromMovieCategory);
             outPlayer1.println(ranNum);
+            outPlayer2.println(randomQuestionFromMovieCategory);
+            outPlayer2.println(ranNum);
         }
         if(player1Choice.equals("Musik")){
             currentCategory = 1;
@@ -81,6 +80,8 @@ public class QuizkampenServer extends Thread{
             String randomQuestionFromMusicCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
             outPlayer1.println(randomQuestionFromMusicCategory);
             outPlayer1.println(ranNum+3);
+            outPlayer2.println(randomQuestionFromMusicCategory);
+            outPlayer2.println(ranNum+3);
 
         }
         if(player1Choice.equals("Java-kunskap")){
@@ -89,6 +90,8 @@ public class QuizkampenServer extends Thread{
             String randomQuestionFromJavaCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
             outPlayer1.println(randomQuestionFromJavaCategory);
             outPlayer1.println(ranNum+6);
+            outPlayer2.println(randomQuestionFromJavaCategory);
+            outPlayer2.println(ranNum+6);
 
         }
         if(player1Choice.equals("Övrigt")){
@@ -97,6 +100,8 @@ public class QuizkampenServer extends Thread{
             String randomQuestionFromOtherCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
             outPlayer1.println(randomQuestionFromOtherCategory);
             outPlayer1.println(ranNum+9);
+            outPlayer2.println(randomQuestionFromOtherCategory);
+            outPlayer2.println(ranNum+9);
 
         }
     }
