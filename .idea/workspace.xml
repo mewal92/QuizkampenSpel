@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="annat frågesystem">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
@@ -45,7 +44,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel/src/Questions",
+    "last_opened_file_path": "C:/Users/phili/QuizkampenSpel",
     "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
@@ -103,7 +102,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669119449433</updated>
-      <workItem from="1669564195957" duration="28274000" />
+      <workItem from="1669564195957" duration="28902000" />
+      <workItem from="1669633777468" duration="3705000" />
     </task>
     <task id="LOCAL−00001" summary="Server som matchar två spelare i taget för en ny spelomgång.">
       <created>1669121771786</created>
@@ -129,7 +129,13 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1669581084560</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="annat frågesystem">
+      <created>1669595739196</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1669595739196</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -100,10 +100,8 @@ public class QuizkampenServer extends Thread{
                 System.out.println(question.getFelSvar2());
                 System.out.println(question.getFelSvar3());
                 for (Questions f : Questions.questionList) {
-                    System.out.println(f.getRättSvar());
                     if (f.getFråga().equals(question.getFråga())) {
                         System.out.println("ja");
-                        Questions.addQuestionList(question);
                         return null;
                     }
                 }Questions.addQuestionList(question);

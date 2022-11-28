@@ -30,6 +30,7 @@ public class QuizkampenClient implements ActionListener {
         JButton answer3 = new JButton("Svarsalternativ 3");
         JButton answer4 = new JButton("Svarsalternativ 4");
         ArrayList<JButton> answerButtonsList = new ArrayList<>();
+    ArrayList<JButton> categoryButtonsList = new ArrayList<>();
 
         InetAddress ip = InetAddress.getLocalHost();
         int port = 44444;
@@ -64,10 +65,10 @@ public class QuizkampenClient implements ActionListener {
             answerButtonsList.add(answer2);
             answerButtonsList.add(answer3);
             answerButtonsList.add(answer4);
-            answerButtonsList.add(category1);
-            answerButtonsList.add(category2);
-            answerButtonsList.add(category3);
-            answerButtonsList.add(category4);
+            categoryButtonsList.add(category1);
+            categoryButtonsList.add(category2);
+            categoryButtonsList.add(category3);
+            categoryButtonsList.add(category4);
             for (JButton jButton : answerButtonsList)
                 jButton.setBackground(Color.LIGHT_GRAY);
 
@@ -75,6 +76,10 @@ public class QuizkampenClient implements ActionListener {
             answer2.addActionListener(this);
             answer3.addActionListener(this);
             answer4.addActionListener(this);
+            category1.addActionListener(this);
+            category2.addActionListener(this);
+            category3.addActionListener(this);
+            category4.addActionListener(this);
             nameField.addActionListener(this);
 
             /*nameField.addActionListener(e -> {
@@ -116,8 +121,19 @@ public class QuizkampenClient implements ActionListener {
                     frame.revalidate();
                 } else if (inFromServer.equals("SET ALTERNATIVES")) {
                     answerQuestion();
-                } else if (inFromServer.equals("SLUT"))
+                } else if (inFromServer.equals("SLUT")) {
+                    JLabel slut = new JLabel("SLUT!!!!!!!!");
+                    basePanel.remove(title2);
+                    basePanel.remove(nameField);
+                    basePanel.remove(play);
+                    basePanel.remove(answer1);
+                    basePanel.remove(answer2);
+                    basePanel.remove(answer3);
+                    basePanel.remove(answer4);
+                    frame.add(slut);
+                    frame.repaint();
                     break;
+                }
 
 
             }
@@ -144,7 +160,7 @@ public class QuizkampenClient implements ActionListener {
             frame.revalidate();
             frame.repaint();
 
-                    category1.addActionListener(e -> {
+                  /*  category1.addActionListener(e -> {
                         out.println("vidarePressed");
                         out.println("Film");
                         });
@@ -161,7 +177,7 @@ public class QuizkampenClient implements ActionListener {
                         out.println("Övrigt");
                     });
                     frame.repaint();
-                    frame.revalidate();
+                    frame.revalidate();*/
 
                 //Här kommer frågan.
 
@@ -171,10 +187,11 @@ public class QuizkampenClient implements ActionListener {
                 currentCat = in.readLine();
                 String questionFromServer = in.readLine();
                 rättSvar = in.readLine();
-                System.out.println(questionFromServer);
 
                 if (questionFromServer != null) {
                     questionCounter ++;
+                    if(questionCounter == 2)
+                        roundCounter++;
                     title.setText(questionFromServer);
                     basePanel.add(answer1);
                     basePanel.add(answer2);
@@ -212,9 +229,10 @@ public class QuizkampenClient implements ActionListener {
                 out.println("vidarePressed");
                 out.println(currentCat);
             } else {
-                roundCounter++;
                 questionCounter = 0;
-                for (JButton jButton : answerButtonsList) {
+                for (JButton jButton : answerButtonsList)
+                    jButton.setBackground(Color.LIGHT_GRAY);
+                for (JButton jButton : categoryButtonsList) {
                     jButton.setBackground(Color.LIGHT_GRAY);
                     if (jButton.getText().equals(currentCat)) {
                         jButton.setVisible(false);
@@ -252,6 +270,12 @@ public class QuizkampenClient implements ActionListener {
                         Timer timer = new Timer(1000, taskPerformer);
                         timer.setRepeats(false);
                         timer.start();
+                    }
+                }
+                for (JButton jButton: categoryButtonsList){
+                    if (e.getSource() == jButton){
+                        out.println("vidarePressed");
+                        out.println(jButton.getText());
                     }
                 }
             }
