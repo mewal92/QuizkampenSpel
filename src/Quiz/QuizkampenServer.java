@@ -50,20 +50,14 @@ public class QuizkampenServer extends Thread{
                 } else if (position.equals("startPressed")) {
                     setWaitScreen();
                     setCategory();
+                }else if (position.equals("newRound")){
+                    setCategory();
                 }
-                //1. player1 väljer kategori
-                //2. player2 visa väntskärm
-                //3. player1 får slumpad fråga.
-                /*setCategory();
-                setWaitScreen();
-                chooseCategory();
-                seeProgress();
-                endGame();*/
-
             }
         }
         catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
@@ -74,14 +68,6 @@ public class QuizkampenServer extends Thread{
         }
     private void setWaitScreen() {
         outPlayer2.println("SET WAIT");
-    }
-    public void seeProgress() throws IOException {//kollar hur långt i spelet man kommit om man svarat på en fråga
-        while(true){
-            if(inPlayer1.readLine().equals("vidarePressed")){
-               chooseCategory();
-                break;
-            }
-        }
 
     }
 
@@ -90,41 +76,46 @@ public class QuizkampenServer extends Thread{
                 outPlayer1.println("SET CATEGORY");
     }
     public Questions readQuestion(String s) {
-        Questions question = null;
+        Questions question;
         int längd = countLines(s);
+        //räknar linjer i kategorins textfil
         int hopp;
-        List<Integer> shuffleList = new ArrayList<>();
-        //int[] frågorRader = new int[längd / 5];
-        //for (int i = 0; i < längd / 5; i++)
-        //frågorRader[i] = i;
         try (var scan = new Scanner(new File("src/Questions/" + s + ".txt"));) {
             //int ranNum = new Random().nextInt(0, längd/5);
             //int line = frågorRader[ranNum];
-            hopp = (new Random().nextInt(0, längd / 5) * 5);
 
-            System.out.println(hopp);
-            //skipLines(scan, hopp);
-            for (int i = 0; i < hopp; i++)
-                scan.nextLine();
-            String fråga = scan.nextLine();
-            String rättSvar = scan.nextLine();
-            String felSvar1 = scan.nextLine();
-            String felSvar2 = scan.nextLine();
-            String felSvar3 = scan.nextLine();
-            question = new Questions(fråga, rättSvar, felSvar1, felSvar2, felSvar3);
-            System.out.println(question.getFråga());
-            System.out.println(question.getRättSvar());
-            System.out.println(question.getFelSvar1());
-            System.out.println(question.getFelSvar2());
-            System.out.println(question.getFelSvar3());
-            for (Questions f : Questions.questionList)
-                if (f.getFråga().equals(question.getFråga())) {
-                    System.out.println("ja");
-                    return null;
-                }
-            Questions.addQuestionList(question);
+                hopp = (new Random().nextInt(0, längd / 5) * 5);
+                //hoppar 5 rader random till en fråga
+                for (int i = 0; i < hopp; i++)
+                    scan.nextLine();
+                String fråga = scan.nextLine();
+                String rättSvar = scan.nextLine();
+                String felSvar1 = scan.nextLine();
+                String felSvar2 = scan.nextLine();
+                String felSvar3 = scan.nextLine();
+                question = new Questions(fråga, rättSvar, felSvar1, felSvar2, felSvar3);
+                System.out.println(question.getFråga());
+                System.out.println(question.getRättSvar());
+                System.out.println(question.getFelSvar1());
+                System.out.println(question.getFelSvar2());
+                System.out.println(question.getFelSvar3());
+                for (Questions f : Questions.questionList) {
+                    System.out.println(f.getRättSvar());
+                    if (f.getFråga().equals(question.getFråga())) {
+                        System.out.println("ja");
+                        Questions.addQuestionList(question);
+                        return null;
+                    }
+                }Questions.addQuestionList(question);
+                return question;
 
-            return question;
+                /*for (Questions f : Questions.questionList) {
+                    System.out.println(f.getRättSvar());
+                    if (f.getFråga().equals(question.getFråga())) {
+                        System.out.println("ja");
+                        return null;
+                    }
+                }*/
 
 
         } catch (
@@ -166,8 +157,8 @@ public class QuizkampenServer extends Thread{
     }
     public void chooseCategory() throws IOException {
         String player1Choice = inPlayer1.readLine();
-            currentQuestion = readQuestion(player1Choice);
-            while(currentQuestion ==null) {
+        currentQuestion = readQuestion(player1Choice);
+           while(currentQuestion ==null) {
                 currentQuestion = readQuestion(player1Choice);
             }
             outPlayer1.println("SET ALTERNATIVES");

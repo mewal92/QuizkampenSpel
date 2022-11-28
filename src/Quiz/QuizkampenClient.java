@@ -29,7 +29,7 @@ public class QuizkampenClient implements ActionListener {
         JButton answer2 = new JButton("Svarsalternativ 2");
         JButton answer3 = new JButton("Svarsalternativ 3");
         JButton answer4 = new JButton("Svarsalternativ 4");
-        JButton vidare = new JButton("Vidare");
+        ArrayList<JButton> answerButtonsList = new ArrayList<>();
 
         InetAddress ip = InetAddress.getLocalHost();
         int port = 44444;
@@ -60,11 +60,28 @@ public class QuizkampenClient implements ActionListener {
             basePanel.add(nameField);
             basePanel.setBackground(new Color(0, 0, 0, 0));
 
-            nameField.addActionListener(e -> {
+            answerButtonsList.add(answer1);
+            answerButtonsList.add(answer2);
+            answerButtonsList.add(answer3);
+            answerButtonsList.add(answer4);
+            answerButtonsList.add(category1);
+            answerButtonsList.add(category2);
+            answerButtonsList.add(category3);
+            answerButtonsList.add(category4);
+            for (JButton jButton : answerButtonsList)
+                jButton.setBackground(Color.LIGHT_GRAY);
+
+            answer1.addActionListener(this);
+            answer2.addActionListener(this);
+            answer3.addActionListener(this);
+            answer4.addActionListener(this);
+            nameField.addActionListener(this);
+
+            /*nameField.addActionListener(e -> {
                     out.println(nameField.getText());
             title2.setText("Väntar på en motståndare..");
             frame.repaint();
-            frame.revalidate();});
+            frame.revalidate();});*/
             title.setFont(new Font("Tahoma", Font.PLAIN, 23));
             score.setFont(new Font("Tahoma", Font.PLAIN, 23));
 
@@ -110,7 +127,6 @@ public class QuizkampenClient implements ActionListener {
     }
 
         public void instructionsPlayer(){
-            questionCounter = 0;
             System.out.println("Väljer kategori");
             title.setText("Välj kategori");
             basePanel.remove(title2);
@@ -125,6 +141,8 @@ public class QuizkampenClient implements ActionListener {
             basePanel.add(category2);
             basePanel.add(category3);
             basePanel.add(category4);
+            frame.revalidate();
+            frame.repaint();
 
                     category1.addActionListener(e -> {
                         out.println("vidarePressed");
@@ -162,19 +180,11 @@ public class QuizkampenClient implements ActionListener {
                     basePanel.add(answer2);
                     basePanel.add(answer3);
                     basePanel.add(answer4);
-                    frame.add(vidare);
-                    vidare.setVisible(false);
 
                     answer1.setText(in.readLine());
                     answer2.setText(in.readLine());
                     answer3.setText(in.readLine());
                     answer4.setText(in.readLine());
-
-                    answer1.addActionListener(this);
-                    answer2.addActionListener(this);
-                    answer3.addActionListener(this);
-                    answer4.addActionListener(this);
-                    vidare.addActionListener(this);
 
                     basePanel.remove(category1);
                     basePanel.remove(category2);
@@ -197,61 +207,54 @@ public class QuizkampenClient implements ActionListener {
             } else if (questionCounter !=2){
                 System.out.println("hit2");
                 System.out.println(currentCat);
+                for (JButton jButton : answerButtonsList)
+                    jButton.setBackground(Color.LIGHT_GRAY);
                 out.println("vidarePressed");
                 out.println(currentCat);
             } else {
                 roundCounter++;
-                basePanel.remove(answer1);
-                basePanel.remove(answer2);
-                basePanel.remove(answer3);
-                basePanel.remove(answer4);
+                questionCounter = 0;
+                for (JButton jButton : answerButtonsList) {
+                    jButton.setBackground(Color.LIGHT_GRAY);
+                    if (jButton.getText().equals(currentCat)) {
+                        jButton.setVisible(false);
+                    }
+                }
                 System.out.println("hit3");
-                out.println("startPressed");
+                out.println("newRound");
             }
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            /*out.println(nameField.getText());
-            title2.setText("Väntar på en motståndare..");
-            frame.repaint();
-            frame.revalidate();*/
-
-            //Kollar om spelaren har tryckt på answer1 och om det svarsalternativet finns i korrektasvar-listan
-            //och samma på else if fast knappen blir röd om svaret är fel
-            if (e.getSource() == answer1 && answer1.getText().equals(rättSvar)) {
-                //om den är korrekt blir knappen grön
-                answer1.setBackground(Color.green);
-                vidare.setVisible(true);
+            if(e.getSource() == nameField){
+                out.println(nameField.getText());
+                title2.setText("Väntar på en motspelare..");
                 frame.repaint();
-            } else if (e.getSource() == answer1 && !answer1.getText().equals(rättSvar)) {
-                answer1.setBackground(Color.red);
-                vidare.setVisible(true);
-                frame.repaint();
-            }
-            //OSV samma logik fast resterande svarsknappar
-            else if (e.getSource() == answer2 && answer2.getText().equals(rättSvar)) {
-                answer2.setBackground(Color.green);
-            } else if (e.getSource() == answer2 && !answer2.getText().equals(rättSvar)) {
-                answer2.setBackground(Color.red);
-            }
-            else if (e.getSource() == answer3 && answer3.getText().equals(rättSvar)) {
-                answer3.setBackground(Color.green);
-            } else if (e.getSource() == answer3 && !answer3.getText().equals(rättSvar)) {
-                answer3.setBackground(Color.red);
-            }
-            else if (e.getSource() == answer4 && answer4.getText().equals(rättSvar)) {
-                answer4.setBackground(Color.green);
-            } else if (e.getSource() == answer4 && !answer4.getText().equals(rättSvar)) {
-                answer4.setBackground(Color.red);
-            }
-            if (e.getSource() == vidare){
+                frame.revalidate();
+            }else{
+                for (JButton jButton : answerButtonsList) {
+                    if (e.getSource() == jButton) {
+                        if (rättSvar.contains(jButton.getText())) {
+                            jButton.setBackground(Color.green);
+                        } else {
+                            jButton.setBackground(Color.red);
+                        }
+                        frame.repaint();
+                        frame.revalidate();
 
-                frame.remove(vidare);
-                try {
-                    progressCheck();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                        ActionListener taskPerformer = e1 -> {
+                            try {
+                                progressCheck();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        };
+                        Timer timer = new Timer(1000, taskPerformer);
+                        timer.setRepeats(false);
+                        timer.start();
+                    }
                 }
             }
+
         }
     }

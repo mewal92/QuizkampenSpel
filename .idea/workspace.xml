@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="ändringar&#10;play metod i client och annorlunda runmetod i server">
-      <change afterPath="$PROJECT_DIR$/src/Questions/Film.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Java-kunskap.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Musik.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Questions/Övrigt.txt" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="annat frågesystem">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/Questions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/Questions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
@@ -36,6 +32,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2Hu00ucNxnURgt22zxsXoabXbjq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -104,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669119449433</updated>
-      <workItem from="1669564195957" duration="15299000" />
+      <workItem from="1669564195957" duration="28274000" />
     </task>
     <task id="LOCAL−00001" summary="Server som matchar två spelare i taget för en ny spelomgång.">
       <created>1669121771786</created>
@@ -124,7 +123,13 @@
       <option name="presentableId" value="LOCAL−00003" />
       <updated>1669506781531</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL−00004" summary="annat frågesystem">
+      <created>1669581084560</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1669581084560</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +150,7 @@
     <MESSAGE value="Server som matchar två spelare i taget för en ny spelomgång." />
     <MESSAGE value="ändringar&#10;ändringar" />
     <MESSAGE value="ändringar&#10;play metod i client och annorlunda runmetod i server" />
-    <option name="LAST_COMMIT_MESSAGE" value="ändringar&#10;play metod i client och annorlunda runmetod i server" />
+    <MESSAGE value="annat frågesystem" />
+    <option name="LAST_COMMIT_MESSAGE" value="annat frågesystem" />
   </component>
 </project>
