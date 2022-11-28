@@ -59,7 +59,6 @@ public class QuizkampenServer extends Thread {
                     chooseCategory();
                 } else if (position.equals("startPressed")) {
                     setWaitScreen();
-                    setCategoryGui();
                 }else if (position.equals("newRound")){
                     //setCategoryGUI();
                 }
