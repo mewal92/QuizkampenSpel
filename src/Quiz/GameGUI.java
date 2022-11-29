@@ -1,8 +1,6 @@
 package Quiz;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,7 +15,6 @@ public class GameGUI extends JFrame {
     JLabel title;
     JLabel title2;
     JTextField nameField;
-    JLabel chooseCategory;
     JButton category1;
     JButton category2;
     JButton category3;

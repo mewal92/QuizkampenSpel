@@ -99,27 +99,6 @@ public class QuizkampenClient extends GameGUI implements ActionListener {
             }
         }
     }
-    public void progressCheck() throws IOException {
-        if (questionCounter == 2 && roundCounter == 2) {
-            System.out.println("hit1");
-            out.println("slut");
-            frame.add(slut);
-        } else if (questionCounter != 2) {
-            System.out.println("hit2");
-            System.out.println(currentCat);
-            for (JButton jButton : answerButtonsList)
-                jButton.setBackground(Color.LIGHT_GRAY);
-            out.println("vidarePressed");
-            out.println(currentCat);
-        } else {
-            questionCounter = 0;
-            if (jButton.getText().equals(currentCat)) {
-                jButton.setVisible(false);
-            }
-        }
-        System.out.println("hit3");
-        out.println("newRound");
-    }
 
     public static void main(String[] args) throws IOException {
         new QuizkampenClient();

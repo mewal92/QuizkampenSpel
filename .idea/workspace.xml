@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameServerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/QuizkampenServer.java" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt över all GUI i gameGUI och ändrat småsaker + mergeat ihop med Philips version">
+      <change beforePath="$PROJECT_DIR$/src/Quiz/GameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,11 +30,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true"
+  }
+}]]></component>
   <component name="RunManager" selected="Application.QuizkampenClient">
     <configuration name="GameServerListener" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GameServerListener" />
@@ -79,7 +78,13 @@
       <option name="presentableId" value="LOCAL−00001" />
       <updated>1669121771786</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL−00002" summary="Lagt över all GUI i gameGUI och ändrat småsaker + mergeat ihop med Philips version">
+      <created>1669674563040</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1669674563040</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -95,6 +100,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Server som matchar två spelare i taget för en ny spelomgång." />
-    <option name="LAST_COMMIT_MESSAGE" value="Server som matchar två spelare i taget för en ny spelomgång." />
+    <MESSAGE value="Lagt över all GUI i gameGUI och ändrat småsaker + mergeat ihop med Philips version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lagt över all GUI i gameGUI och ändrat småsaker + mergeat ihop med Philips version" />
   </component>
 </project>
