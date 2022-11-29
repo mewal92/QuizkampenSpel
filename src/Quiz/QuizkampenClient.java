@@ -1,18 +1,17 @@
 package Quiz;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class QuizkampenClient implements ActionListener {
+    GameGUI gameGui = new GameGUI();
+    /*
     JFrame frame = new JFrame("Quizkampen");
     JPanel basePanel = new JPanel();
     BufferedImage backgroundImage = ImageIO.read(new File("src/Images/background.jpg"));
@@ -31,6 +30,8 @@ public class QuizkampenClient implements ActionListener {
     JButton answer3 = new JButton("Svarsalternativ 3");
     JButton answer4 = new JButton("Svarsalternativ 4");
     JButton vidare = new JButton("Vidare");
+
+     */
     ArrayList<JButton> answerButtonsList = new ArrayList<>();
     ArrayList<JButton> categoryButtonsList = new ArrayList<>();
     InetAddress ip = InetAddress.getLocalHost();
@@ -46,7 +47,7 @@ public class QuizkampenClient implements ActionListener {
     int roundCounter = 0;
 
     public QuizkampenClient() throws IOException {
-        frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
+        /*frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
         frame.setLayout(new FlowLayout());
         frame.add(basePanel);
         frame.setSize(800, 530);
@@ -61,41 +62,40 @@ public class QuizkampenClient implements ActionListener {
         basePanel.add(title2);
         basePanel.add(nameField);
         basePanel.setBackground(new Color(0, 0, 0, 0));
+*/
+        answerButtonsList.add(gameGui.answer1);
+        answerButtonsList.add(gameGui.answer2);
+        answerButtonsList.add(gameGui.answer3);
+        answerButtonsList.add(gameGui.answer4);
+        categoryButtonsList.add(gameGui.category1);
+        categoryButtonsList.add(gameGui.category2);
+        categoryButtonsList.add(gameGui.category3);
+        categoryButtonsList.add(gameGui.category4);
 
-        answerButtonsList.add(answer1);
-        answerButtonsList.add(answer2);
-        answerButtonsList.add(answer3);
-        answerButtonsList.add(answer4);
-        categoryButtonsList.add(category1);
-        categoryButtonsList.add(category2);
-        categoryButtonsList.add(category3);
-        categoryButtonsList.add(category4);
+        gameGui.answer1.addActionListener(this);
+        gameGui.answer2.addActionListener(this);
+        gameGui.answer3.addActionListener(this);
+        gameGui.answer4.addActionListener(this);
+        gameGui.category1.addActionListener(this);
+        gameGui.category2.addActionListener(this);
+        gameGui.category3.addActionListener(this);
+        gameGui.category4.addActionListener(this);
+        gameGui.nameField.addActionListener(this);
+        gameGui.vidare.addActionListener(this);
 
-        answer1.addActionListener(this);
-        answer2.addActionListener(this);
-        answer3.addActionListener(this);
-        answer4.addActionListener(this);
-        category1.addActionListener(this);
-        category2.addActionListener(this);
-        category3.addActionListener(this);
-        category4.addActionListener(this);
-        nameField.addActionListener(this);
-        vidare.addActionListener(this);
-
-        title.setFont(new Font("Tahoma", Font.PLAIN, 23));
-        scorePlayer1.setFont(new Font("Tahoma", Font.PLAIN, 23));
-        scorePlayer2.setFont(new Font("Tahoma", Font.PLAIN, 23));
     }
 
         public void game() throws Exception {
             String serverResponse;
             serverResponse = in.readLine();
             if (serverResponse != null) {
-                title2.setText(serverResponse);
+                gameGui.setStartScreen2();
+
+                /*title2.setText(serverResponse);
                 frame.revalidate();
                 frame.repaint();
-                basePanel.add(play);
-                play.addActionListener(e -> outToServer.println("startPressed"));
+                bottomHalf.add(play);*/
+                gameGui.play.addActionListener(e -> outToServer.println("startPressed"));
 
             }
 
@@ -113,7 +113,7 @@ public class QuizkampenClient implements ActionListener {
                     break;
                 }else if (inFromServer.equals("SET ENDSCREEN")){
                     //metod med gui för slutresultat
-                    setEndscreen();
+                    setEndScreen();
                 }else if(inFromServer.equals("SET SUMMARY")){
                     //metd med gui för rondresultat
                     setSummary();
@@ -121,89 +121,26 @@ public class QuizkampenClient implements ActionListener {
             }
         }
 
-    private void setEndscreen() throws IOException {
-        basePanel.remove(answer1);
-        basePanel.remove(answer2);
-        basePanel.remove(answer3);
-        basePanel.remove(answer4);
-        title.setText("Resultaten");
-        vidare.addActionListener(this);
-        scorePlayer1.setText("Dina poäng: " + in.readLine()+ "Motståndarens poäng: "+ in.readLine());
-        basePanel.add(scorePlayer1);
-        frame.repaint();
-        frame.revalidate();
+    private void setEndScreen() throws IOException {
+        gameGui.setEndScreenGUI();
+        gameGui.vidare.addActionListener(this);
+        gameGui.scorePlayer1.setText("Dina poäng: " + in.readLine()+ "Motståndarens poäng: "+ in.readLine());
     }
 
     private void setSummary() throws IOException {
-        basePanel.remove(answer1);
-        basePanel.remove(answer2);
-        basePanel.remove(answer3);
-        basePanel.remove(answer4);
-        title.setText("Ronden är slut");
-        basePanel.add(vidare);
-        vidare.addActionListener(this);
-        scorePlayer1.setText("Dina poäng: " + in.readLine());
-        basePanel.add(scorePlayer1);
-        frame.repaint();
-        frame.revalidate();
+        gameGui.setSummaryGUI();
+        gameGui.vidare.addActionListener(this);
+        gameGui.scorePlayer1.setText("Dina poäng: " + in.readLine());
     }
 
     public void setCategories () {
-            title.setText("Välj kategori");
-        basePanel.remove(vidare);
-        basePanel.remove(scorePlayer1);
-            basePanel.remove(title2);
-            basePanel.remove(nameField);
-            basePanel.remove(play);
-            basePanel.add(category1);
-            basePanel.add(category2);
-            basePanel.add(category3);
-            basePanel.add(category4);
-            basePanel.remove(answer1);
-            basePanel.remove(answer2);
-            basePanel.remove(answer3);
-            basePanel.remove(answer4);
-            frame.repaint();
-            frame.revalidate();
+        gameGui.setChooseCategoryGui();
         }
         public void setQuestion () {
-            basePanel.add(answer1);
-            basePanel.add(answer2);
-            basePanel.add(answer3);
-            basePanel.add(answer4);
-
-            answer1.setBackground(Color.white);
-            answer2.setBackground(Color.white);
-            answer3.setBackground(Color.white);
-            answer4.setBackground(Color.white);
-
-            basePanel.remove(category1);
-            basePanel.remove(category2);
-            basePanel.remove(category3);
-            basePanel.remove(category4);
-            basePanel.remove(scorePlayer1);
-            basePanel.remove(vidare);
-
-            frame.repaint();
-            frame.revalidate();
-
+            gameGui.setQuestionScreenGUI();
         }
         public void waiting() throws IOException {
-            title.setText("Väntar på din tur..");
-            basePanel.remove(vidare);
-            basePanel.remove(title2);
-            basePanel.remove(nameField);
-            basePanel.remove(play);
-            basePanel.remove(answer1);
-            basePanel.remove(answer2);
-            basePanel.remove(answer3);
-            basePanel.remove(answer4);
-            basePanel.remove(category1);
-            basePanel.remove(category2);
-            basePanel.remove(category3);
-            basePanel.remove(category4);
-            frame.repaint();
-            frame.revalidate();
+            gameGui.setWaitScreenGUI();
         }
 
 
@@ -212,12 +149,12 @@ public class QuizkampenClient implements ActionListener {
                 String questionFromServer = in.readLine();
                 rättSvar = in.readLine();
                 if (questionFromServer != null) {
-                    title.setText(questionFromServer);
+                    gameGui.title.setText(questionFromServer);
 
-                    answer1.setText(in.readLine());
-                    answer2.setText(in.readLine());
-                    answer3.setText(in.readLine());
-                    answer4.setText(in.readLine());
+                    gameGui.answer1.setText(in.readLine());
+                    gameGui.answer2.setText(in.readLine());
+                    gameGui.answer3.setText(in.readLine());
+                    gameGui.answer4.setText(in.readLine());
                     break;
                 }
             }
@@ -232,14 +169,14 @@ public class QuizkampenClient implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vidare){
+        if (e.getSource() == gameGui.vidare){
             outToServer.println("next");
         }
-        if (e.getSource() == nameField) {
-                outToServer.println(nameField.getText());
-                title2.setText("Väntar på en motspelare..");
-                frame.repaint();
-                frame.revalidate();
+        if (e.getSource() == gameGui.nameField) {
+                outToServer.println(gameGui.nameField.getText());
+                gameGui.title2.setText("Väntar på en motspelare..");
+                gameGui.frame.repaint();
+                gameGui.frame.revalidate();
             }
             for (JButton jButton : answerButtonsList) {
 
@@ -261,8 +198,8 @@ public class QuizkampenClient implements ActionListener {
                             timer.setRepeats(false);
                             timer.start();
                     }
-                     frame.repaint();
-                     frame.revalidate();
+                        gameGui.frame.repaint();
+                        gameGui.frame.revalidate();
                  }
                 }
 
