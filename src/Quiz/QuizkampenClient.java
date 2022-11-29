@@ -9,29 +9,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class QuizkampenClient implements ActionListener {
     GameGUI gameGui = new GameGUI();
-    /*
-    JFrame frame = new JFrame("Quizkampen");
-    JPanel basePanel = new JPanel();
-    BufferedImage backgroundImage = ImageIO.read(new File("src/Images/background.jpg"));
-    JLabel title = new JLabel("Välkommen till Quizkampen!");
-    JLabel title2 = new JLabel("Skriv ditt namn för att börja spela: ");
-    JLabel scorePlayer1 = new JLabel("Poäng: ");
-    JLabel scorePlayer2 = new JLabel("Poäng: ");
-    JTextField nameField = new JTextField("", 10);
-    JButton play = new JButton("Starta spel");
-    JButton category1 = new JButton("Film");
-    JButton category2 = new JButton("Musik");
-    JButton category3 = new JButton("Java-kunskap");
-    JButton category4 = new JButton("Övrigt");
-    JButton answer1 = new JButton("Svarsalternativ 1");
-    JButton answer2 = new JButton("Svarsalternativ 2");
-    JButton answer3 = new JButton("Svarsalternativ 3");
-    JButton answer4 = new JButton("Svarsalternativ 4");
-    JButton vidare = new JButton("Vidare");
 
-     */
     ArrayList<JButton> answerButtonsList = new ArrayList<>();
     ArrayList<JButton> categoryButtonsList = new ArrayList<>();
     InetAddress ip = InetAddress.getLocalHost();
@@ -39,12 +21,9 @@ public class QuizkampenClient implements ActionListener {
     Socket sock = new Socket(ip, port);
     PrintWriter outToServer = new PrintWriter(sock.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-    String currentCat = "";
-    JLabel slut = new JLabel("slut");
     String rättSvar = "";
-
-    int questionCounter = 0;
-    int roundCounter = 0;
+    String opponent = "";
+    String player= "";
 
     public QuizkampenClient() throws IOException {
         /*frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
@@ -89,14 +68,10 @@ public class QuizkampenClient implements ActionListener {
             String serverResponse;
             serverResponse = in.readLine();
             if (serverResponse != null) {
+                opponent = in.readLine();
+                gameGui.title2.setText(serverResponse);
                 gameGui.setStartScreen2();
-
-                /*title2.setText(serverResponse);
-                frame.revalidate();
-                frame.repaint();
-                bottomHalf.add(play);*/
                 gameGui.play.addActionListener(e -> outToServer.println("startPressed"));
-
             }
 
             while (true) {
@@ -114,6 +89,7 @@ public class QuizkampenClient implements ActionListener {
                 }else if (inFromServer.equals("SET ENDSCREEN")){
                     //metod med gui för slutresultat
                     setEndScreen();
+                    break;
                 }else if(inFromServer.equals("SET SUMMARY")){
                     //metd med gui för rondresultat
                     setSummary();
@@ -122,15 +98,24 @@ public class QuizkampenClient implements ActionListener {
         }
 
     private void setEndScreen() throws IOException {
+        String points1=in.readLine();
+        String points2=in.readLine();
+        if (parseInt(points1) >parseInt(points2))
+            gameGui.title2.setText(player + " vann!!");
+        else if(parseInt(points1) <parseInt(points2))
+            gameGui.title2.setText(opponent + " vann!!");
+        else
+            gameGui.title2.setText("Oavgjort");
+        gameGui.scorePlayer1.setText("Dina slutpoäng: " + points1);
+        gameGui.scorePlayer2.setText(opponent + "s slutpoäng: "+ points2);
         gameGui.setEndScreenGUI();
-        gameGui.vidare.addActionListener(this);
-        gameGui.scorePlayer1.setText("Dina poäng: " + in.readLine()+ "Motståndarens poäng: "+ in.readLine());
     }
 
     private void setSummary() throws IOException {
-        gameGui.setSummaryGUI();
         gameGui.vidare.addActionListener(this);
         gameGui.scorePlayer1.setText("Dina poäng: " + in.readLine());
+        gameGui.scorePlayer2.setText(opponent + "s poäng: "+ in.readLine());
+        gameGui.setSummaryGUI();
     }
 
     public void setCategories () {
@@ -139,7 +124,7 @@ public class QuizkampenClient implements ActionListener {
         public void setQuestion () {
             gameGui.setQuestionScreenGUI();
         }
-        public void waiting() throws IOException {
+        public void waiting(){
             gameGui.setWaitScreenGUI();
         }
 
@@ -173,7 +158,8 @@ public class QuizkampenClient implements ActionListener {
             outToServer.println("next");
         }
         if (e.getSource() == gameGui.nameField) {
-                outToServer.println(gameGui.nameField.getText());
+                player = gameGui.nameField.getText();
+                outToServer.println(player);
                 gameGui.title2.setText("Väntar på en motspelare..");
                 gameGui.frame.repaint();
                 gameGui.frame.revalidate();

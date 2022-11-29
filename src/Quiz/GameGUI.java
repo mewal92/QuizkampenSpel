@@ -68,7 +68,10 @@ public class GameGUI {
 
     }
     public void setStartScreen2(){
+        topHalf.add(title2);
         bottomHalf.add(play);
+        frame.revalidate();
+        frame.repaint();
 
     }
 
@@ -77,6 +80,7 @@ public class GameGUI {
         bottomHalf.remove(vidare);
         bottomHalf.remove(play);
         topHalf.remove(scorePlayer1);
+        topHalf.remove(scorePlayer2);
         topHalf.remove(title2);
         topHalf.remove(nameField);
         bottomHalf.add(category1);
@@ -102,7 +106,6 @@ public class GameGUI {
         answer3.setBackground(Color.white);
         answer4.setBackground(Color.white);
 
-        topHalf.remove(scorePlayer1);
         bottomHalf.remove(category1);
         bottomHalf.remove(category2);
         bottomHalf.remove(category3);
@@ -116,6 +119,8 @@ public class GameGUI {
         bottomHalf.remove(vidare);
         topHalf.remove(title2);
         topHalf.remove(nameField);
+        topHalf.remove(scorePlayer1);
+        topHalf.remove(scorePlayer2);
         bottomHalf.remove(play);
         bottomHalf.remove(answer1);
         bottomHalf.remove(answer2);
@@ -135,9 +140,11 @@ public class GameGUI {
         bottomHalf.remove(answer2);
         bottomHalf.remove(answer3);
         bottomHalf.remove(answer4);
+
         title.setText("Ronden är slut");
         bottomHalf.add(vidare);
         topHalf.add(scorePlayer1);
+        topHalf.add(scorePlayer2);
         frame.repaint();
         frame.revalidate();
     }
@@ -147,8 +154,10 @@ public class GameGUI {
         bottomHalf.remove(answer2);
         bottomHalf.remove(answer3);
         bottomHalf.remove(answer4);
-        title.setText("Resultaten");
+        title.setText("Spelet är slut! Resultaten:");
         topHalf.add(scorePlayer1);
+        topHalf.add(scorePlayer2);
+        topHalf.add(title2);
         frame.repaint();
         frame.revalidate();
     }

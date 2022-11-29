@@ -29,7 +29,6 @@ public class QuizkampenServer extends Thread {
     Questions currentQuestion;
 
     boolean gameActive = false;
-    boolean gameActive2= false;
 
     public QuizkampenServer(Socket player1, Socket player2) throws IOException {
         player1Socket = player1;
@@ -50,23 +49,31 @@ public class QuizkampenServer extends Thread {
             String player2UserName = inPlayer2.readLine();
             outPlayer1.println("Välkommen " + player1UserName + ". Du kommer att spela mot " + player2UserName + "!");
             outPlayer2.println("Välkommen " + player2UserName + ". Du kommer att spela mot " + player1UserName + "!");
+            outPlayer1.println(player2UserName);
+            outPlayer2.println(player1UserName);
             gameActive = true;
 
             //Låt player1 välja kategori.
             while (gameActive) {
+                String position2 = "";
                 String position = inPlayer1.readLine();
                 if (position.equals("vidarePressed")) {
+                    System.out.println(position);
                     chooseCategory(inPlayer1);
-                }else if(position.equals("P2 CAT")){
-
                 }
                 else if (position.equals("startPressed")) {
-                    setCategoryGui(outPlayer1);
-                    setWaitScreen(outPlayer2);
+                    while (true){
+                        position2 = inPlayer2.readLine();
+                        if(position2.equals("startPressed")){
+                            setCategoryGui(outPlayer1);
+                            setWaitScreen(outPlayer2);
+                            break;
+                        }
+                    }
                 } else if (position.equals("CorrectAnswer")) {
                     scorePlayer1++;
                     while (true){
-                        String position2 = inPlayer2.readLine();
+                        position2 = inPlayer2.readLine();
                         //gui vänteskärm
                         if (position2.equals("CorrectAnswer")){
                             //if (answeredQuestionsThisRound == questionsPerRound)
@@ -83,7 +90,7 @@ public class QuizkampenServer extends Thread {
                 } else if (position.equals("WrongAnswer")) {
 
                     while (true) {
-                        String position2 = inPlayer2.readLine();
+                        position2 = inPlayer2.readLine();
                         if (position2.equals("CorrectAnswer")){
                             //if (answeredQuestionsThisRound == questionsPerRound)
                             //   roundsPlayed++;
@@ -107,8 +114,10 @@ public class QuizkampenServer extends Thread {
     public void setSummary() throws IOException {
             outPlayer1.println("SET SUMMARY");
             outPlayer2.println("SET SUMMARY");
-            outPlayer1.println(scorePlayer1);
-            outPlayer2.println(scorePlayer2);
+        outPlayer1.println(scorePlayer1);
+        outPlayer1.println(scorePlayer2);
+        outPlayer2.println(scorePlayer2);
+        outPlayer2.println(scorePlayer1);
             while (true){
                 String vidare1 = inPlayer1.readLine();
                 if(vidare1.equals("next")){
@@ -126,14 +135,9 @@ public class QuizkampenServer extends Thread {
         outPlayer1.println(scorePlayer2);
         outPlayer2.println(scorePlayer2);
         outPlayer2.println(scorePlayer1);
-    }
-    public void endGame() throws IOException {
-        System.out.print(scorePlayer1);
-        System.out.print(scorePlayer2);
-        outPlayer1.println("QUIT");
-        outPlayer2.println("QUIT");
         gameActive = false;
     }
+
     public void setCategoryGui(PrintWriter p) throws IOException {
         answeredQuestionsThisRound=0;
         p.println("SET CATEGORY");
@@ -142,7 +146,6 @@ public class QuizkampenServer extends Thread {
     private void progressCheck() throws IOException, InterruptedException {
             if (answeredQuestionsThisRound == questionsPerRound && roundsPlayed==rounds){
                 setEndscreen();
-                endGame();
             }
             else if (answeredQuestionsThisRound == questionsPerRound) {
                 //outPlayer1.println("SET CATEGORY");
@@ -183,11 +186,6 @@ public class QuizkampenServer extends Thread {
             String felSvar2 = scan.nextLine();
             String felSvar3 = scan.nextLine();
             question = new Questions(fråga, rättSvar, felSvar1, felSvar2, felSvar3);
-            System.out.println(question.getFråga());
-            System.out.println(question.getRättSvar());
-            System.out.println(question.getFelSvar1());
-            System.out.println(question.getFelSvar2());
-            System.out.println(question.getFelSvar3());
             for (Questions f : Questions.questionList) {
                 if (f.getFråga().equals(question.getFråga())) {
                     System.out.println("ja");
