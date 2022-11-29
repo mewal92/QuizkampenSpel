@@ -153,6 +153,10 @@ public class QuizkampenClient implements ActionListener {
             basePanel.remove(title2);
             basePanel.remove(nameField);
             basePanel.remove(play);
+            basePanel.remove(answer1);
+            basePanel.remove(answer2);
+            basePanel.remove(answer3);
+            basePanel.remove(answer4);
             basePanel.add(score);
             frame.repaint();
             frame.revalidate();
