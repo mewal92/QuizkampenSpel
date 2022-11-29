@@ -18,7 +18,8 @@ public class QuizkampenClient implements ActionListener {
     BufferedImage backgroundImage = ImageIO.read(new File("src/Images/background.jpg"));
     JLabel title = new JLabel("Välkommen till Quizkampen!");
     JLabel title2 = new JLabel("Skriv ditt namn för att börja spela: ");
-    JLabel score = new JLabel("Poäng: ");
+    JLabel scorePlayer1 = new JLabel("Poäng: ");
+    JLabel scorePlayer2 = new JLabel("Poäng: ");
     JTextField nameField = new JTextField("", 10);
     JButton play = new JButton("Starta spel");
     JButton category1 = new JButton("Film");
@@ -29,6 +30,7 @@ public class QuizkampenClient implements ActionListener {
     JButton answer2 = new JButton("Svarsalternativ 2");
     JButton answer3 = new JButton("Svarsalternativ 3");
     JButton answer4 = new JButton("Svarsalternativ 4");
+    JButton vidare = new JButton("Vidare");
     ArrayList<JButton> answerButtonsList = new ArrayList<>();
     ArrayList<JButton> categoryButtonsList = new ArrayList<>();
     InetAddress ip = InetAddress.getLocalHost();
@@ -78,9 +80,11 @@ public class QuizkampenClient implements ActionListener {
         category3.addActionListener(this);
         category4.addActionListener(this);
         nameField.addActionListener(this);
+        vidare.addActionListener(this);
 
         title.setFont(new Font("Tahoma", Font.PLAIN, 23));
-        score.setFont(new Font("Tahoma", Font.PLAIN, 23));
+        scorePlayer1.setFont(new Font("Tahoma", Font.PLAIN, 23));
+        scorePlayer2.setFont(new Font("Tahoma", Font.PLAIN, 23));
     }
 
         public void game() throws Exception {
@@ -107,16 +111,50 @@ public class QuizkampenClient implements ActionListener {
                     waiting();
                 } else if (inFromServer.equals("QUIT")) {
                     break;
+                }else if (inFromServer.equals("SET ENDSCREEN")){
+                    //metod med gui för slutresultat
+                    setEndscreen();
+                }else if(inFromServer.equals("SET SUMMARY")){
+                    //metd med gui för rondresultat
+                    setSummary();
                 }
             }
         }
 
-        public void setCategories () {
+    private void setEndscreen() throws IOException {
+        basePanel.remove(answer1);
+        basePanel.remove(answer2);
+        basePanel.remove(answer3);
+        basePanel.remove(answer4);
+        title.setText("Resultaten");
+        vidare.addActionListener(this);
+        scorePlayer1.setText("Dina poäng: " + in.readLine()+ "Motståndarens poäng: "+ in.readLine());
+        basePanel.add(scorePlayer1);
+        frame.repaint();
+        frame.revalidate();
+    }
+
+    private void setSummary() throws IOException {
+        basePanel.remove(answer1);
+        basePanel.remove(answer2);
+        basePanel.remove(answer3);
+        basePanel.remove(answer4);
+        title.setText("Ronden är slut");
+        basePanel.add(vidare);
+        vidare.addActionListener(this);
+        scorePlayer1.setText("Dina poäng: " + in.readLine());
+        basePanel.add(scorePlayer1);
+        frame.repaint();
+        frame.revalidate();
+    }
+
+    public void setCategories () {
             title.setText("Välj kategori");
+        basePanel.remove(vidare);
+        basePanel.remove(scorePlayer1);
             basePanel.remove(title2);
             basePanel.remove(nameField);
             basePanel.remove(play);
-            basePanel.add(score);
             basePanel.add(category1);
             basePanel.add(category2);
             basePanel.add(category3);
@@ -143,13 +181,16 @@ public class QuizkampenClient implements ActionListener {
             basePanel.remove(category2);
             basePanel.remove(category3);
             basePanel.remove(category4);
+            basePanel.remove(scorePlayer1);
+            basePanel.remove(vidare);
 
             frame.repaint();
             frame.revalidate();
 
         }
-        public void waiting() {
+        public void waiting() throws IOException {
             title.setText("Väntar på din tur..");
+            basePanel.remove(vidare);
             basePanel.remove(title2);
             basePanel.remove(nameField);
             basePanel.remove(play);
@@ -157,7 +198,10 @@ public class QuizkampenClient implements ActionListener {
             basePanel.remove(answer2);
             basePanel.remove(answer3);
             basePanel.remove(answer4);
-            basePanel.add(score);
+            basePanel.remove(category1);
+            basePanel.remove(category2);
+            basePanel.remove(category3);
+            basePanel.remove(category4);
             frame.repaint();
             frame.revalidate();
         }
@@ -188,7 +232,10 @@ public class QuizkampenClient implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == nameField) {
+        if (e.getSource() == vidare){
+            outToServer.println("next");
+        }
+        if (e.getSource() == nameField) {
                 outToServer.println(nameField.getText());
                 title2.setText("Väntar på en motspelare..");
                 frame.repaint();
