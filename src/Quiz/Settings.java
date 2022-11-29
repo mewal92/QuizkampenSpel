@@ -23,4 +23,6 @@ public class Settings {
     public int getQuestions(){
         return questions;
     }
+
+
 }

@@ -23,11 +23,13 @@ public class QuizkampenServer extends Thread {
     int questionsPerRound = settings.getQuestions();
     String currentCategory;
     int answeredQuestionsThisRound = 0;
+    int roundsPlayed = 0;
     int scorePlayer1;
     int scorePlayer2;
     Questions currentQuestion;
 
     boolean gameActive = false;
+    boolean gameActive2= false;
 
     public QuizkampenServer(Socket player1, Socket player2) throws IOException {
         player1Socket = player1;
@@ -53,89 +55,111 @@ public class QuizkampenServer extends Thread {
             //Låt player1 välja kategori.
             while (gameActive) {
                 String position = inPlayer1.readLine();
-                if (position.equals("slut")) {
-                    endGame();
-                } else if (position.equals("vidarePressed")) {
-                    chooseCategory();
-                } else if (position.equals("startPressed")) {
-                    setWaitScreen();
-                    setCategoryGui();
-                }else if (position.equals("newRound")){
-                    //setCategoryGUI();
-                }
+                if (position.equals("vidarePressed")) {
+                    chooseCategory(inPlayer1);
+                }else if(position.equals("P2 CAT")){
 
+                }
+                else if (position.equals("startPressed")) {
+                    setCategoryGui(outPlayer1);
+                    setWaitScreen(outPlayer2);
+                } else if (position.equals("CorrectAnswer")) {
+                    scorePlayer1++;
+                    while (true){
+                        String position2 = inPlayer2.readLine();
+                        //gui vänteskärm
+                        if (position2.equals("CorrectAnswer")){
+                            //if (answeredQuestionsThisRound == questionsPerRound)
+                            //   roundsPlayed++;
+                            scorePlayer2++;
+                            progressCheck();
+                            break;
+                        }
+                        if(position2.equals("WrongAnswer")){
+                        progressCheck();
+                        break;
+                        }
+                    }
+                } else if (position.equals("WrongAnswer")) {
+
+                    while (true) {
+                        String position2 = inPlayer2.readLine();
+                        if (position2.equals("CorrectAnswer")){
+                            //if (answeredQuestionsThisRound == questionsPerRound)
+                            //   roundsPlayed++;
+                            scorePlayer2++;
+                            progressCheck();
+                            break;
+                        }
+                        if(position2.equals("WrongAnswer")){
+                            progressCheck();
+                            break;
+                        }
+                    }
             }
+        }
+
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
+    public void setSummary() throws IOException {
+            outPlayer1.println("SET SUMMARY");
+            outPlayer2.println("SET SUMMARY");
+            outPlayer1.println(scorePlayer1);
+            outPlayer2.println(scorePlayer2);
+            while (true){
+                String vidare1 = inPlayer1.readLine();
+                if(vidare1.equals("next")){
+                    String vidare2 = inPlayer2.readLine();
+                    if(vidare2.equals("next")){
+                        break;
+                    }
+                }
+            }
+    }
+    public void setEndscreen(){
+        outPlayer1.println("SET ENDSCREEN");
+        outPlayer2.println("SET ENDSCREEN");
+        outPlayer1.println(scorePlayer1);
+        outPlayer1.println(scorePlayer2);
+        outPlayer2.println(scorePlayer2);
+        outPlayer2.println(scorePlayer1);
+    }
     public void endGame() throws IOException {
-
-        outPlayer1.println("SLUT");
+        System.out.print(scorePlayer1);
+        System.out.print(scorePlayer2);
+        outPlayer1.println("QUIT");
+        outPlayer2.println("QUIT");
         gameActive = false;
     }
-    public void setCategoryGui() throws IOException {
-        outPlayer1.println("SET CATEGORY");
-    }
-    /*public void playersCategoryChoice() throws IOException {
-        while(true){
-            String player1Choice = inPlayer1.readLine();
-            if(player1Choice.equals("Film")){
-                currentCategory = 0;
-                break;
-            }
-            if(player1Choice.equals("Musik")){
-                currentCategory = 1;
-                break;
-            }
-            if(player1Choice.equals("Java-kunskap")){
-                currentCategory = 2;
-                break;
-            }
-            if(player1Choice.equals("Övrigt")){
-                currentCategory = 3;
-                break;
-            }
-        }
-    }*/
-    private void setQuestionGui() {
-        outPlayer1.println("SET QUESTION");
-    }
-    /*private void sendQuestionToPlayer() throws IOException, InterruptedException {
-        int ranNum = new Random().nextInt(0, 3);
-        String randomQuestionFromMovieCategory = questionsList.allQuestions.get(currentCategory).get(ranNum);
-        outPlayer1.println(randomQuestionFromMovieCategory);
-        outPlayer1.println(ranNum+(currentCategory*3));
-        answerFromPlayer();
-    }
-*/
-    private void answerFromPlayer() throws IOException, InterruptedException {
-        while(true){
-            String answerFromPlayer = inPlayer1.readLine();
-            if(answerFromPlayer.equals("CorrectAnswer")){
-                scorePlayer1++;
-                answeredQuestionsThisRound++;
-                progressCheck();
-                System.out.println("correct answer received");
-                break;
-
-            }else if(answerFromPlayer.equals("WrongAnswer")){
-                answeredQuestionsThisRound++;
-                progressCheck();
-                break;
-            }
-        }
+    public void setCategoryGui(PrintWriter p) throws IOException {
+        answeredQuestionsThisRound=0;
+        p.println("SET CATEGORY");
     }
 
-    private void progressCheck() {
-        if(answeredQuestionsThisRound == questionsPerRound){
-            outPlayer1.println("SET CATEGORY");
-            rounds++;
-            //Visa väntGUI för player1. Skicka choose category till player 2.
-        }else{
-
-            readQuestion(currentCategory);
-            setQuestionGui();
+    private void progressCheck() throws IOException, InterruptedException {
+            if (answeredQuestionsThisRound == questionsPerRound && roundsPlayed==rounds){
+                setEndscreen();
+                endGame();
+            }
+            else if (answeredQuestionsThisRound == questionsPerRound) {
+                //outPlayer1.println("SET CATEGORY");
+                //här skickas summary till p1 och p2
+                setSummary();
+                if(roundsPlayed%2==0) {
+                    setCategoryGui(outPlayer1);
+                    setWaitScreen(outPlayer2);
+                    System.out.println("rounds played = " + roundsPlayed);
+                }else{
+                    setCategoryGui(outPlayer2);
+                    setWaitScreen(outPlayer1);
+                    System.out.println("rounds played = " + roundsPlayed);
+                }
+                //Visa väntGUI för player1. Skicka choose category till player 2.
+            } else {
+                sendQuestionToPlayer(readQuestion(currentCategory));
         }
     }
 
@@ -150,8 +174,9 @@ public class QuizkampenServer extends Thread {
 
             hopp = (new Random().nextInt(0, längd / 5) * 5);
             //hoppar 5 rader random till en fråga
-            for (int i = 0; i < hopp; i++)
+            for (int i = 0; i < hopp; i++) {
                 scan.nextLine();
+            }
             String fråga = scan.nextLine();
             String rättSvar = scan.nextLine();
             String felSvar1 = scan.nextLine();
@@ -166,19 +191,10 @@ public class QuizkampenServer extends Thread {
             for (Questions f : Questions.questionList) {
                 if (f.getFråga().equals(question.getFråga())) {
                     System.out.println("ja");
-                    return null;
+                    return readQuestion(currentCategory);
                 }
-            }
-            Questions.addQuestionList(question);
+            }Questions.addQuestionList(question);
             return question;
-
-                /*for (Questions f : Questions.questionList) {
-                    System.out.println(f.getRättSvar());
-                    if (f.getFråga().equals(question.getFråga())) {
-                        System.out.println("ja");
-                        return null;
-                    }
-                }*/
 
 
         } catch (
@@ -220,28 +236,39 @@ public class QuizkampenServer extends Thread {
         outPlayer1.println(list.get(1));
         outPlayer1.println(list.get(2));
         outPlayer1.println(list.get(3));
+        outPlayer2.println(list.get(0));
+        outPlayer2.println(list.get(1));
+        outPlayer2.println(list.get(2));
+        outPlayer2.println(list.get(3));
     }
 
-    public void chooseCategory() throws IOException, InterruptedException {
-        String player1Choice = inPlayer1.readLine();
+    public void chooseCategory(BufferedReader b) throws IOException, InterruptedException {
+        String player1Choice = b.readLine();
+        System.out.println(player1Choice);
         currentQuestion = readQuestion(player1Choice);
         currentCategory = player1Choice;
-        while (currentQuestion == null) {
-            currentQuestion = readQuestion(player1Choice);
-        }
         sendQuestionToPlayer(currentQuestion);
         }
-        public void sendQuestionToPlayer(Questions q) throws IOException, InterruptedException {
+        public void sendQuestionToPlayer(Questions q) {
             outPlayer1.println("SET QUESTION");
-            //outPlayer1.println(player1Choice);
+            outPlayer2.println("SET QUESTION");
+            currentQuestion = q;
             outPlayer1.println(currentQuestion.getFråga());
             outPlayer1.println(currentQuestion.getRättSvar());
+            outPlayer2.println(currentQuestion.getFråga());
+            outPlayer2.println(currentQuestion.getRättSvar());
             shuffleAnswers(currentQuestion.getRättSvar(), currentQuestion.getFelSvar1(),
                     currentQuestion.getFelSvar2(), currentQuestion.getFelSvar3());
-            answerFromPlayer();
+            answeredQuestionsThisRound++;
+            if (answeredQuestionsThisRound == questionsPerRound)
+                roundsPlayed++;
         }
-    private void setWaitScreen () {
-        outPlayer2.println("SET WAIT");
-
+    private void setWaitScreen (PrintWriter p) throws IOException, InterruptedException {
+        p.println("SET WAIT");
+        if (p==outPlayer1){
+            String skräp =inPlayer2.readLine();
+            String skräp2 = inPlayer2.readLine();
+            chooseCategory(inPlayer2);
+        }
     }
 }
