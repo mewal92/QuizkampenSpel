@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="2 spelare kan spela nu. Varranan väljer rond. Visar resultat.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Lagt till en Ge upp-knapp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/GameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +51,7 @@
       <recent name="C:\Users\phili\QuizkampenSpel\src\Quiz" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.QuizkampenClient">
+  <component name="RunManager">
     <configuration name="GameProtocol" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Quiz.GameProtocol" />
       <module name="QuizkampenSpel" />
@@ -106,9 +102,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
+        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.GameProtocol" />
         <item itemvalue="Application.Settings" />
       </list>
@@ -225,7 +221,13 @@
       <option name="presentableId" value="LOCAL−00016" />
       <updated>1669766592575</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL−00017" summary="Lagt till en Ge upp-knapp">
+      <created>1669808249516</created>
+      <option name="number" value="LOCAL−00017" />
+      <option name="presentableId" value="LOCAL−00017" />
+      <updated>1669808249516</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +257,7 @@
     <MESSAGE value="2 spelare kan spela nu" />
     <MESSAGE value="2 spelare kan spela nu. Varranan väljer rond. Visar resultat." />
     <MESSAGE value="fixat buggar i GUI och snyggat till" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixat buggar i GUI och snyggat till" />
+    <MESSAGE value="Lagt till en Ge upp-knapp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lagt till en Ge upp-knapp" />
   </component>
 </project>
