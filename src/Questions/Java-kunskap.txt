@@ -13,3 +13,18 @@ Ett programmeringsspråk
 En yoga-position
 Ett land
 En kaffesort
+Vilken av dessa variabeltyper är inte primitiv?
+String
+int
+byte
+boolean
+Hur många metoder får man ha i en klass?
+Hur många du vill
+En
+Tre
+Inga alls
+En klass är en subklass när?
+Ärver en annan klass
+Den är mindre viktig
+Ärvs av en annan klass
+Inte gör några beräkningar
