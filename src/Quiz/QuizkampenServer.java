@@ -71,7 +71,10 @@ public class QuizkampenServer extends Thread {
                             break;
                         }
                     }
-                } else if (position.equals("CorrectAnswer")) {
+                }else if (position.equals("geUppPressed")){
+                    gameActive = false;
+                    setEndscreen();
+                }else if (position.equals("CorrectAnswer")) {
                     //poäng räknas på beroende på svarens sanningsvärde
                     scorePlayer1++;
                     while (true){

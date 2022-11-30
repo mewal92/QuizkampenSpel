@@ -47,6 +47,7 @@ public class QuizkampenClient implements ActionListener {
         gameGui.category4.addActionListener(this);
         gameGui.nameField.addActionListener(this);
         gameGui.vidare.addActionListener(this);
+        gameGui.geUpp.addActionListener(this);
 
     }
 
@@ -145,6 +146,9 @@ public class QuizkampenClient implements ActionListener {
         //action för att gå vidare från resultatsskärm
         if (e.getSource() == gameGui.vidare){
             outToServer.println("next");
+        }
+        if (e.getSource() == gameGui.geUpp){
+            outToServer.println("geUppPressed");
         }
         if (e.getSource() == gameGui.nameField) {
             //sparar samt skickar ut spelarens namn

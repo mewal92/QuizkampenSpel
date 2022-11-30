@@ -4,10 +4,7 @@
     <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="2 spelare kan spela nu. Varranan väljer rond. Visar resultat.">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Questions/Film.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions/Film.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Questions/Java-kunskap.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions/Java-kunskap.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Questions/Musik.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions/Musik.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Questions/Övrigt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions/Övrigt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Quiz/GameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
@@ -109,9 +106,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
-        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.GameProtocol" />
         <item itemvalue="Application.Settings" />
       </list>

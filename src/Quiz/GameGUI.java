@@ -30,6 +30,7 @@ public class GameGUI extends JFrame {
     JButton answer3 = new JButton("Svarsalternativ 3");
     JButton answer4 = new JButton("Svarsalternativ 4");
     JButton vidare = new JButton("Nästa rond ->");
+    JButton geUpp = new JButton("Ge upp");
 
     public GameGUI() throws IOException {
         frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
@@ -92,6 +93,7 @@ public class GameGUI extends JFrame {
         topHalf.remove(scorePlayer2);
         topHalf.remove(title2);
         topHalf.remove(nameField);
+        topHalf.add(geUpp);
         bottomHalf.add(category1);
         Dimension d = new Dimension(80, 65);
         category1.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -116,6 +118,7 @@ public class GameGUI extends JFrame {
     }
 
     public void setQuestionScreenGUI() {
+        topHalf.remove(geUpp);
         topHalf.repaint();
         bottomHalf.add(answer1);
         bottomHalf.add(answer2);
@@ -151,6 +154,7 @@ public class GameGUI extends JFrame {
         topHalf.remove(nameField);
         topHalf.remove(scorePlayer1);
         topHalf.remove(scorePlayer2);
+        topHalf.add(geUpp);
         bottomHalf.remove(play);
         bottomHalf.remove(answer1);
         bottomHalf.remove(answer2);
@@ -166,6 +170,7 @@ public class GameGUI extends JFrame {
 
 
     public void setSummaryGUI(){
+        topHalf.remove(geUpp);
         bottomHalf.remove(answer1);
         bottomHalf.remove(answer2);
         bottomHalf.remove(answer3);
