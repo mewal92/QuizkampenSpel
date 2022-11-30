@@ -83,8 +83,8 @@ public class QuizkampenServer extends Thread {
                             break;
                         }
                         if(position2.equals("WrongAnswer")){
-                        progressCheck();
-                        break;
+                            progressCheck();
+                            break;
                         }
                     }
                 } else if (position.equals("WrongAnswer")) {
@@ -103,8 +103,8 @@ public class QuizkampenServer extends Thread {
                             break;
                         }
                     }
+                }
             }
-        }
 
 
         } catch (IOException | InterruptedException e) {
@@ -112,21 +112,21 @@ public class QuizkampenServer extends Thread {
         }
     }
     public void setSummary() throws IOException {
-            outPlayer1.println("SET SUMMARY");
-            outPlayer2.println("SET SUMMARY");
+        outPlayer1.println("SET SUMMARY");
+        outPlayer2.println("SET SUMMARY");
         outPlayer1.println(scorePlayer1);
         outPlayer1.println(scorePlayer2);
         outPlayer2.println(scorePlayer2);
         outPlayer2.println(scorePlayer1);
-            while (true){
-                String vidare1 = inPlayer1.readLine();
-                if(vidare1.equals("next")){
-                    String vidare2 = inPlayer2.readLine();
-                    if(vidare2.equals("next")){
-                        break;
-                    }
+        while (true){
+            String vidare1 = inPlayer1.readLine();
+            if(vidare1.equals("next")){
+                String vidare2 = inPlayer2.readLine();
+                if(vidare2.equals("next")){
+                    break;
                 }
             }
+        }
     }
     public void setEndscreen(){
         outPlayer1.println("SET ENDSCREEN");
@@ -144,25 +144,25 @@ public class QuizkampenServer extends Thread {
     }
 
     private void progressCheck() throws IOException, InterruptedException {
-            if (answeredQuestionsThisRound == questionsPerRound && roundsPlayed==rounds){
-                setEndscreen();
+        if (answeredQuestionsThisRound == questionsPerRound && roundsPlayed==rounds){
+            setEndscreen();
+        }
+        else if (answeredQuestionsThisRound == questionsPerRound) {
+            //outPlayer1.println("SET CATEGORY");
+            //här skickas summary till p1 och p2
+            setSummary();
+            if(roundsPlayed%2==0) {
+                setCategoryGui(outPlayer1);
+                setWaitScreen(outPlayer2);
+                System.out.println("rounds played = " + roundsPlayed);
+            }else{
+                setCategoryGui(outPlayer2);
+                setWaitScreen(outPlayer1);
+                System.out.println("rounds played = " + roundsPlayed);
             }
-            else if (answeredQuestionsThisRound == questionsPerRound) {
-                //outPlayer1.println("SET CATEGORY");
-                //här skickas summary till p1 och p2
-                setSummary();
-                if(roundsPlayed%2==0) {
-                    setCategoryGui(outPlayer1);
-                    setWaitScreen(outPlayer2);
-                    System.out.println("rounds played = " + roundsPlayed);
-                }else{
-                    setCategoryGui(outPlayer2);
-                    setWaitScreen(outPlayer1);
-                    System.out.println("rounds played = " + roundsPlayed);
-                }
-                //Visa väntGUI för player1. Skicka choose category till player 2.
-            } else {
-                sendQuestionToPlayer(readQuestion(currentCategory));
+            //Visa väntGUI för player1. Skicka choose category till player 2.
+        } else {
+            sendQuestionToPlayer(readQuestion(currentCategory));
         }
     }
 
@@ -246,21 +246,21 @@ public class QuizkampenServer extends Thread {
         currentQuestion = readQuestion(player1Choice);
         currentCategory = player1Choice;
         sendQuestionToPlayer(currentQuestion);
-        }
-        public void sendQuestionToPlayer(Questions q) {
-            outPlayer1.println("SET QUESTION");
-            outPlayer2.println("SET QUESTION");
-            currentQuestion = q;
-            outPlayer1.println(currentQuestion.getFråga());
-            outPlayer1.println(currentQuestion.getRättSvar());
-            outPlayer2.println(currentQuestion.getFråga());
-            outPlayer2.println(currentQuestion.getRättSvar());
-            shuffleAnswers(currentQuestion.getRättSvar(), currentQuestion.getFelSvar1(),
-                    currentQuestion.getFelSvar2(), currentQuestion.getFelSvar3());
-            answeredQuestionsThisRound++;
-            if (answeredQuestionsThisRound == questionsPerRound)
-                roundsPlayed++;
-        }
+    }
+    public void sendQuestionToPlayer(Questions q) {
+        outPlayer1.println("SET QUESTION");
+        outPlayer2.println("SET QUESTION");
+        currentQuestion = q;
+        outPlayer1.println(currentQuestion.getFråga());
+        outPlayer1.println(currentQuestion.getRättSvar());
+        outPlayer2.println(currentQuestion.getFråga());
+        outPlayer2.println(currentQuestion.getRättSvar());
+        shuffleAnswers(currentQuestion.getRättSvar(), currentQuestion.getFelSvar1(),
+                currentQuestion.getFelSvar2(), currentQuestion.getFelSvar3());
+        answeredQuestionsThisRound++;
+        if (answeredQuestionsThisRound == questionsPerRound)
+            roundsPlayed++;
+    }
     private void setWaitScreen (PrintWriter p) throws IOException, InterruptedException {
         p.println("SET WAIT");
         if (p==outPlayer1){

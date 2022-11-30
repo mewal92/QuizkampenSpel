@@ -17,7 +17,7 @@ public class QuizkampenClient implements ActionListener {
     ArrayList<JButton> answerButtonsList = new ArrayList<>();
     ArrayList<JButton> categoryButtonsList = new ArrayList<>();
     InetAddress ip = InetAddress.getLocalHost();
-    int port = 44444;
+    int port = 55555;
     Socket sock = new Socket(ip, port);
     PrintWriter outToServer = new PrintWriter(sock.getOutputStream(), true);
     BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -26,22 +26,6 @@ public class QuizkampenClient implements ActionListener {
     String player= "";
 
     public QuizkampenClient() throws IOException {
-        /*frame.setContentPane(new JLabel(new ImageIcon(backgroundImage)));
-        frame.setLayout(new FlowLayout());
-        frame.add(basePanel);
-        frame.setSize(800, 530);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        basePanel.setLayout(new GridLayout(4, 1));
-        basePanel.setBorder(new EmptyBorder(100, 100, 20, 20));
-        basePanel.add(title);
-        basePanel.add(title2);
-        basePanel.add(nameField);
-        basePanel.setBackground(new Color(0, 0, 0, 0));
-*/
         answerButtonsList.add(gameGui.answer1);
         answerButtonsList.add(gameGui.answer2);
         answerButtonsList.add(gameGui.answer3);
@@ -64,46 +48,46 @@ public class QuizkampenClient implements ActionListener {
 
     }
 
-        public void game() throws Exception {
-            String serverResponse;
-            serverResponse = in.readLine();
-            if (serverResponse != null) {
-                opponent = in.readLine();
-                gameGui.title2.setText(serverResponse);
-                gameGui.setStartScreen2();
-                gameGui.play.addActionListener(e -> outToServer.println("startPressed"));
-            }
+    public void game() throws Exception {
+        String serverResponse;
+        serverResponse = in.readLine();
+        if (serverResponse != null) {
+            opponent = in.readLine();
+            gameGui.title2.setText(serverResponse);
+            gameGui.setStartScreen2();
+            gameGui.play.addActionListener(e -> outToServer.println("startPressed"));
+        }
 
-            while (true) {
-                String inFromServer = in.readLine();
-                System.out.println(inFromServer);
-                if (inFromServer.equals("SET CATEGORY")) {
-                    setCategories();
-                } else if (inFromServer.equals("SET QUESTION")) {
-                    setQuestion();
-                    answerQuestion();
-                } else if (inFromServer.equals("SET WAIT")) {
-                    waiting();
-                } else if (inFromServer.equals("QUIT")) {
-                    break;
-                }else if (inFromServer.equals("SET ENDSCREEN")){
-                    //metod med gui för slutresultat
-                    setEndScreen();
-                    break;
-                }else if(inFromServer.equals("SET SUMMARY")){
-                    //metd med gui för rondresultat
-                    setSummary();
-                }
+        while (true) {
+            String inFromServer = in.readLine();
+            System.out.println(inFromServer);
+            if (inFromServer.equals("SET CATEGORY")) {
+                setCategories();
+            } else if (inFromServer.equals("SET QUESTION")) {
+                setQuestion();
+                answerQuestion();
+            } else if (inFromServer.equals("SET WAIT")) {
+                waiting();
+            } else if (inFromServer.equals("QUIT")) {
+                break;
+            }else if (inFromServer.equals("SET ENDSCREEN")){
+                //metod med gui för slutresultat
+                setEndScreen();
+                break;
+            }else if(inFromServer.equals("SET SUMMARY")){
+                //metd med gui för rondresultat
+                setSummary();
             }
         }
+    }
 
     private void setEndScreen() throws IOException {
         String points1=in.readLine();
         String points2=in.readLine();
         if (parseInt(points1) >parseInt(points2))
-            gameGui.title2.setText(player + " vann!!");
+            gameGui.title2.setText(player + " vann!");
         else if(parseInt(points1) <parseInt(points2))
-            gameGui.title2.setText(opponent + " vann!!");
+            gameGui.title2.setText(opponent + " vann, du förlorade tyvärr..");
         else
             gameGui.title2.setText("Oavgjort");
         gameGui.scorePlayer1.setText("Dina slutpoäng: " + points1);
@@ -120,35 +104,35 @@ public class QuizkampenClient implements ActionListener {
 
     public void setCategories () {
         gameGui.setChooseCategoryGui();
-        }
-        public void setQuestion () {
-            gameGui.setQuestionScreenGUI();
-        }
-        public void waiting(){
-            gameGui.setWaitScreenGUI();
-        }
+    }
+    public void setQuestion () {
+        gameGui.setQuestionScreenGUI();
+    }
+    public void waiting(){
+        gameGui.setWaitScreenGUI();
+    }
 
 
-        private void answerQuestion () throws IOException {
-            while (true) {
-                String questionFromServer = in.readLine();
-                rättSvar = in.readLine();
-                if (questionFromServer != null) {
-                    gameGui.title.setText(questionFromServer);
+    private void answerQuestion () throws IOException {
+        while (true) {
+            String questionFromServer = in.readLine();
+            rättSvar = in.readLine();
+            if (questionFromServer != null) {
+                gameGui.title.setText(questionFromServer);
 
-                    gameGui.answer1.setText(in.readLine());
-                    gameGui.answer2.setText(in.readLine());
-                    gameGui.answer3.setText(in.readLine());
-                    gameGui.answer4.setText(in.readLine());
-                    break;
-                }
+                gameGui.answer1.setText(in.readLine());
+                gameGui.answer2.setText(in.readLine());
+                gameGui.answer3.setText(in.readLine());
+                gameGui.answer4.setText(in.readLine());
+                break;
             }
         }
+    }
 
-        public static void main (String[]args) throws Exception {
-            QuizkampenClient client = new QuizkampenClient();
-            client.game();
-        }
+    public static void main (String[]args) throws Exception {
+        QuizkampenClient client = new QuizkampenClient();
+        client.game();
+    }
 
 
 
@@ -158,52 +142,47 @@ public class QuizkampenClient implements ActionListener {
             outToServer.println("next");
         }
         if (e.getSource() == gameGui.nameField) {
-                player = gameGui.nameField.getText();
-                outToServer.println(player);
-                gameGui.title2.setText("Väntar på en motspelare..");
+            player = gameGui.nameField.getText();
+            outToServer.println(player);
+            gameGui.title2.setText("Väntar på en motspelare..");
+            gameGui.frame.repaint();
+            gameGui.frame.revalidate();
+        }
+        for (JButton jButton : answerButtonsList) {
+
+            if (e.getSource() == jButton) {
+                if (rättSvar.contains(jButton.getText())) {
+                    jButton.setBackground(Color.green);
+                    ActionListener taskPerformer = e1 -> {
+                        outToServer.println("CorrectAnswer");
+                    };
+                    Timer timer = new Timer(1000, taskPerformer);
+                    timer.setRepeats(false);
+                    timer.start();
+                } else {
+                    jButton.setBackground(Color.red);
+                    ActionListener taskPerformer = e1 -> {
+                        outToServer.println("WrongAnswer");
+                    };
+                    Timer timer = new Timer(1000, taskPerformer);
+                    timer.setRepeats(false);
+                    timer.start();
+                }
                 gameGui.frame.repaint();
                 gameGui.frame.revalidate();
             }
-            for (JButton jButton : answerButtonsList) {
-
-                if (e.getSource() == jButton) {
-                        if (rättSvar.contains(jButton.getText())) {
-                            jButton.setBackground(Color.green);
-                            ActionListener taskPerformer = e1 -> {
-                                outToServer.println("CorrectAnswer");
-                            };
-                            Timer timer = new Timer(1000, taskPerformer);
-                            timer.setRepeats(false);
-                            timer.start();
-                        } else {
-                            jButton.setBackground(Color.red);
-                            ActionListener taskPerformer = e1 -> {
-                            outToServer.println("WrongAnswer");
-                        };
-                            Timer timer = new Timer(1000, taskPerformer);
-                            timer.setRepeats(false);
-                            timer.start();
-                    }
-                        gameGui.frame.repaint();
-                        gameGui.frame.revalidate();
-                 }
-                }
-
-            for (JButton jButton : categoryButtonsList) {
-                if (e.getSource() == jButton) {
-                    outToServer.println("vidarePressed");
-                    outToServer.println(jButton.getText());
-                }
-
-            }
         }
 
+        for (JButton jButton : categoryButtonsList) {
+            if (e.getSource() == jButton) {
+                outToServer.println("vidarePressed");
+                outToServer.println(jButton.getText());
+            }
+
+        }
     }
 
-
-
-
-
+}
 
 
 
