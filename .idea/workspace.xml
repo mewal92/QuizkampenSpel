@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17fe8b5c-9237-4f7b-a2b4-a663334235bf" name="Changes" comment="Fungernade och utbrytet GUI. Behöver förfinas">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/GameGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/GameServerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Quiz/QuizkampenServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,9 +103,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.QuizkampenClient" />
         <item itemvalue="Application.GameServerListener" />
-        <item itemvalue="Application.QuizkampenServer" />
         <item itemvalue="Application.GameProtocol" />
         <item itemvalue="Application.Settings" />
       </list>
@@ -221,7 +216,13 @@
       <option name="presentableId" value="LOCAL−00015" />
       <updated>1669722703625</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL−00016" summary="fixat buggar i GUI och snyggat till">
+      <created>1669766592575</created>
+      <option name="number" value="LOCAL−00016" />
+      <option name="presentableId" value="LOCAL−00016" />
+      <updated>1669766592575</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +251,7 @@
     <MESSAGE value="rätt ronder och frågor för en person" />
     <MESSAGE value="2 spelare kan spela nu" />
     <MESSAGE value="2 spelare kan spela nu. Varranan väljer rond. Visar resultat." />
-    <option name="LAST_COMMIT_MESSAGE" value="2 spelare kan spela nu. Varranan väljer rond. Visar resultat." />
+    <MESSAGE value="fixat buggar i GUI och snyggat till" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixat buggar i GUI och snyggat till" />
   </component>
 </project>
